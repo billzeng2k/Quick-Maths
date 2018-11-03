@@ -1,0 +1,49 @@
+<html style = 'background-color: white;' width = '100%' height = '100%'>
+	<head>
+		<link rel="stylesheet" type="text/css" href="styles.css">
+		<script src="https://connect.facebook.net/en_US/fbinstant.6.2.js"></script>
+		<script>
+			const plus = 'images/plus.png';
+			const minus = 'images/minus.png';
+			const multiply = 'images/multiply.png';
+			const divide = 'images/divide.png';
+			const equal = 'images/equal.png';
+
+			window.onload = function() {
+				FBInstant.initializeAsync()
+				  	.then(function() { 
+				  		FBInstant.setLoadingProgress(100);
+
+				    	FBInstant.startGameAsync()
+							.then(function() {
+							    var contextId = FBInstant.context.getID();
+							    var contextType = FBInstant.context.getType();
+
+							    var playerName = FBInstant.player.getName();
+							    var playerPic = FBInstant.player.getPhoto();
+							    var playerId = FBInstant.player.getID();
+
+							    startGame(playerName);
+						  	});
+				  	});
+			}
+
+			function calcWidth(percent, additional) {
+				return document.body.clientWidth * percent / 100 + additional;
+			}
+		</script>
+	</head>
+	<body style = "margin: 0px; font-family: Dense" width = "100%" height = "100%">
+		<div class = "game_container" width = "100%" height = "100%"></div>
+
+		<script src="build/react.js"></script>
+    	<script src="build/react-dom.js"></script>
+    	<script src="build/babel.js"></script>
+		<script type="text/babel" src="game.js"></script>
+		<script type="text/babel" src="timer.js"></script>
+		<script type="text/babel" src="controls.js"></script>
+		<script type="text/babel" src="equation.js"></script>
+		<script type="text/babel" src="number.js"></script>
+		<script type="text/babel" src="button.js"></script>
+	</body>
+</html>
