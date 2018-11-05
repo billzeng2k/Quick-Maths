@@ -7,3 +7,12 @@
   font-family: 'Dense';
   src: url('fonts/Dense.otf');
 }
+
+#button:active {
+	opacity: 0.5;
+}
+
+.shake-animation {
+	-webkit-animation: shake 0.2s 1;
+	animation: shake 0.2s 1;
+}

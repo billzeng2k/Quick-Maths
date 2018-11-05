@@ -29,25 +29,45 @@ const StylesT = {
 	},
 	circle: {
  		strokeDasharray: circumference + 'px',
-		strokeDashoffset: circumference * (60 - time) / 60 + 'px',
   		strokeLinecap: 'round',
 		strokeWidth: borderSize + 'px',
 		stroke: 'black',
-		fill: 'none'
+		fill: 'none',
+		WebkitTransition: 'stroke-dashoffset 1s linear',
+  		msTransition: 'stroke-dashoffset 1s linear'
 	}
 }
 
 class Timer extends React.Component {
 	constructor(props) {
 		super(props);
+		this.mounted = false;
+	}
+
+	startCountdown() {
+		clearInterval(this.counter);
+		time = 60;
+		this.counter = setInterval(function() {
+			time--;
+		}, 1000);
+	}
+
+	componentDidMount() {
+		this.countdown = document.getElementById('timer');
+		this.startCountdown();
+		this.mounted = true;
 	}
 
 	render () {
+		if(time <= 0) 
+			this.startCountdown();
+		if(this.mounted)
+			this.countdown.style.setProperty('stroke-dashoffset', circumference * (60 - time) / 60);
 		return (
 			<div style = { StylesT.container }>
 				<p style = { StylesT.time }> { time } </p>
 				<svg style = { StylesT.svg }>
-					<circle style = { StylesT.circle } r = { timerSize + 'px' } cx = { (borderSize + timerSize) + 'px' } cy = { (borderSize + timerSize) + 'px' } />
+					<circle id = "timer" style = { StylesT.circle } r = { timerSize + 'px' } cx = { (borderSize + timerSize) + 'px' } cy = { (borderSize + timerSize) + 'px' } />
 				</svg>
 			</div>
 		);

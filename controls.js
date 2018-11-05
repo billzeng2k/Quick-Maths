@@ -39,24 +39,32 @@ class Controls extends React.Component {
 		super(props);
 	}
 
+	activateSymbol(symbol) {
+		this.props.callbackRef.symbolPress(symbol);
+	}
+
+	removeAllSymbols() {
+		this.props.callbackRef.removeAllSymbols();
+	}
+
 	render () {
 		return (
 			<div style = { StylesC.container }>
 				<div style = {{ width: '100%' }}>
-					<div style = { StylesC.symbol }>
+					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(plus) }>
 						<img style = { StylesC.symbolImg } src = { plus } />
 					</div>
-					<div style = { StylesC.symbol }> 
+					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(minus) }> 
 						<img style = { StylesC.symbolImg } src = { minus } />
 					</div>
-					<div style = { StylesC.symbol }>
+					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(multiply) }>
 						<img style = { StylesC.symbolImg } src = { multiply } />
 					</div>
-					<div style = { StylesC.symbol }> 
+					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(divide) }> 
 						<img style = { StylesC.symbolImg } src = { divide } />
 					</div>
 				</div>
-				<div style = { StylesC.clear }> CLEAR </div>
+				<div id = 'button' style = { StylesC.clear } onClick = { () => this.removeAllSymbols() }> CLEAR </div>
 			</div>
 		);
 	}
