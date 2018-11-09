@@ -3,7 +3,8 @@ const timerSize = calcWidth(25, 0);
 const timeSize = calcWidth(2500/98, 0);
 
 const circumference = timerSize * 2 * Math.PI;
-var time = 60;
+const gameTime = 60;
+var time = gameTime;
 
 const StylesT = {
 	container: {
@@ -46,7 +47,7 @@ class Timer extends React.Component {
 
 	startCountdown() {
 		clearInterval(this.counter);
-		time = 60;
+		time = gameTime;
 		this.counter = setInterval(function() {
 			time--;
 		}, 1000);
@@ -62,7 +63,7 @@ class Timer extends React.Component {
 		if(time <= 0) 
 			this.startCountdown();
 		if(this.mounted)
-			this.countdown.style.setProperty('stroke-dashoffset', circumference * (60 - time) / 60);
+			this.countdown.style.setProperty('stroke-dashoffset', circumference * (gameTime + 1 - time) / gameTime);
 		return (
 			<div style = { StylesT.container }>
 				<p style = { StylesT.time }> { time } </p>
