@@ -4,7 +4,7 @@ const timeSize = calcWidth(2500/98, 0);
 
 const circumference = timerSize * 2 * Math.PI;
 const gameTime = 60;
-var time = gameTime;
+var time = gameTime + 1;
 
 const StylesT = {
 	container: {
@@ -45,9 +45,19 @@ class Timer extends React.Component {
 		this.mounted = false;
 	}
 
+	done() {
+		clearInterval(this.counter);
+		time = 0;
+	}
+
+	resetTime() {
+		clearInterval(this.counter);
+		time = gameTime + 1;
+	}
+
 	startCountdown() {
 		clearInterval(this.counter);
-		time = gameTime;
+		time = gameTime + 1;
 		this.counter = setInterval(function() {
 			time--;
 		}, 1000);
@@ -55,18 +65,17 @@ class Timer extends React.Component {
 
 	componentDidMount() {
 		this.countdown = document.getElementById('timer');
-		this.startCountdown();
 		this.mounted = true;
 	}
 
 	render () {
 		if(time <= 0) 
-			this.startCountdown();
+			this.done();
 		if(this.mounted)
-			this.countdown.style.setProperty('stroke-dashoffset', circumference * (gameTime + 1 - time) / gameTime);
+			this.countdown.style.setProperty('stroke-dashoffset', circumference * (gameTime - Math.max(time - 1, 0)) / gameTime);
 		return (
 			<div style = { StylesT.container }>
-				<p style = { StylesT.time }> { time } </p>
+				<p style = { StylesT.time }> { Math.min(time, gameTime) } </p>
 				<svg style = { StylesT.svg }>
 					<circle id = "timer" style = { StylesT.circle } r = { timerSize + 'px' } cx = { (borderSize + timerSize) + 'px' } cy = { (borderSize + timerSize) + 'px' } />
 				</svg>

@@ -40,11 +40,13 @@ class Controls extends React.Component {
 	}
 
 	activateSymbol(symbol) {
-		this.props.callbackRef.symbolPress(symbol);
+		if(gameRunning)
+			this.props.callbackRef.symbolPress(symbol);
 	}
 
 	removeAllSymbols() {
-		this.props.callbackRef.removeAllSymbols();
+		if(gameRunning)
+			this.props.callbackRef.removeAllSymbols();
 	}
 
 	render () {
