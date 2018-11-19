@@ -1,17 +1,31 @@
 <html style = 'background-color: white;' width = '100%' height = '100%'>
 	<head>
+		<meta 
+		     name='viewport' 
+		     content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' 
+		/>
 		<link rel="stylesheet" type="text/css" href="styles.css">
 		<script src="https://connect.facebook.net/en_US/fbinstant.6.2.js"></script>
 		<script>
+			const crown = 'images/crown.png';
 			const plus = 'images/plus.png';
 			const minus = 'images/minus.png';
 			const multiply = 'images/multiply.png';
 			const divide = 'images/divide.png';
 			const equal = 'images/equal.png';
 			const sound = 'images/sound.png';
-			const mute = 'images/sound.png';
+			const mute = 'images/mute.png';
 			const home = 'images/home.png';
 			const restart = 'images/restart.png';
+			const trophy = 'images/trophy.png';
+			const tutorial = 'images/tutorial.png';
+			const grin = 'images/grin.png';
+			const love = 'images/love.png';
+			const cool = 'images/cool.png';
+			const angel = 'images/angel.png';
+			const suprised = 'images/suprised.png';
+			const silly = 'images/silly.png';
+			const smile = 'images/smile.png';
 
 			window.onload = function() {
 				FBInstant.initializeAsync()
@@ -35,6 +49,10 @@
 			function calcWidth(percent, additional) {
 				return document.body.clientWidth * percent / 100 + additional;
 			}
+
+			function calcHeight(percent, additional) {
+				return document.body.clientHeight * percent / 100 + additional;
+			}
 		</script>
 	</head>
 	<body style = "margin: 0px; font-family: Dense" width = "100%" height = "100%">
@@ -49,9 +67,12 @@
 		<script type="text/babel" src="timer.js"></script>
 		<script type="text/babel" src="score.js"></script>
 		<script type="text/babel" src="menuControls.js"></script>
+		<script type="text/babel" src="menuButtons.js"></script>
 		<script type="text/babel" src="controls.js"></script>
 		<script type="text/babel" src="equation.js"></script>
 		<script type="text/babel" src="number.js"></script>
 		<script type="text/babel" src="button.js"></script>
+		<script type="text/babel" src="scoreScreen.js"></script>
+		<script type="text/babel" src="scoreScreenButtons.js"></script>
 	</body>
 </html>

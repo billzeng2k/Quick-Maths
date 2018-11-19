@@ -1,28 +1,24 @@
 const borderSize = calcWidth(50/98, 0);
-const buttonSize = calcWidth(10, borderSize);
-const margin = calcWidth(1, 0);
+const buttonSize = calcWidth(12, borderSize);
+const margin = calcWidth(0.5, 0);
 
 const StylesP = {
 	buttonMiddle: {
-		position: 'absolute',
+		display: 'inline-block',
 		width: buttonSize + 'px',
 		height: buttonSize + 'px',
-		top: margin + 'px',
-		left: margin + 'px'
+		margin: margin + 'px'
 	},
 	buttonRight: {
-		position: 'absolute',
+		display: 'inline-block',
 		width: buttonSize + 'px',
 		height: buttonSize + 'px',
-		top: (margin * 2 + buttonSize) + 'px',
-		left: margin + 'px'
+		margin: margin + 'px'
 	},
 	buttonBottom: {
-		position: 'absolute',
 		width: buttonSize + 'px',
 		height: buttonSize + 'px',
-		top: margin + 'px',
-		left: (margin * 2 + buttonSize) + 'px'
+		margin: margin + 'px'
 	},
 	image: {
 		position: 'relative', 
@@ -44,22 +40,32 @@ class MenuControls extends React.Component {
 	}
 
 	homeButton() {
-		gameRunning = false;
-		this.props.quickMaths.goHome();
+		if(homeButton) {
+			gameRunning = false;
+			this.props.quickMaths.goHome();
+		}
+	}
+
+	transitionOut() {
+		playAnimation(this.container, 'slide_right_out');
+	}
+
+	resetAnimation() {
+		resetAnimation(this.container, 'slide_right_out');
 	}
 
 	render() {
 		return (
-			<div style = {{ position: 'absolute' }}>
-				<div id = 'button' style = { StylesP.buttonRight }>
-					<img style = { StylesP.image } src = { mute } />
-				</div>
+			<div className = 'slide_right' style = {{ position: 'absolute' }} ref = { ref => { this.container = ref }} >
 				<div id = 'button' style = { StylesP.buttonMiddle } onClick = { () => this.homeButton() }>
 					<img style = { StylesP.image } src = { home } />
 				</div>
-				<div id = 'button' style = { StylesP.buttonBottom } onClick = { () => this.resetGame() }>
+				<div id = 'button' style = { StylesP.buttonRight } onClick = { () => this.resetGame() }>
 					<img style = { StylesP.image } src = { restart } />
 				</div>
+				<div id = 'button' style = { StylesP.buttonBottom } onClick = { () => toggleSound() }>
+					<img style = { StylesP.image } src = { muted ? mute : sound } />
+				</div>	
 			</div>
 		);
 	}

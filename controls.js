@@ -49,9 +49,17 @@ class Controls extends React.Component {
 			this.props.callbackRef.removeAllSymbols();
 	}
 
+	transitionOut() {
+		playAnimation(this.container, 'slide_down_animation');
+	}
+
+	resetAnimation() {
+		resetAnimation(this.container, 'slide_down_animation');
+	}
+
 	render () {
 		return (
-			<div style = { StylesC.container }>
+			<div className = 'slide_up_pop_animation' style = { StylesC.container } ref = { ref => { this.container = ref }} >
 				<div style = {{ width: '100%' }}>
 					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(plus) }>
 						<img style = { StylesC.symbolImg } src = { plus } />

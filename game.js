@@ -4,22 +4,25 @@ var create = React.createElement;
 
 const timerSize = calcWidth(25, 0);
 const fontSize = calcWidth(2575/98, 0);
-var pos3 = timerSize * 2 + (document.body.clientHeight - timerSize * 2 - calcWidth(45, 0)) / 2 + fontSize;
-var pos2 = timerSize * 2 + (document.body.clientHeight - timerSize * 2 - calcWidth(45, 0)) / 2;
-var pos1 = timerSize * 2 + (document.body.clientHeight - timerSize * 2 - calcWidth(45, 0)) / 2 - fontSize;
-var pos0 = timerSize * 2 + (document.body.clientHeight - timerSize * 2 - calcWidth(45, 0)) / 2 - fontSize * 2;
-var opacity0 = 0;
-var opacity1 = 1;
-var opacity2 = 0.05;
-var opacity3 = 0;
-const minR = -9, maxR = 49;
+const exclaimations = ['QUOI?', 'AIYA!', 'JOBS DONE', 'NEVER LUCKY', 'NEIN!']
+const pos3 = timerSize * 2 + (document.body.clientHeight - timerSize * 2 - calcWidth(45, 0)) / 2 + fontSize;
+const pos2 = timerSize * 2 + (document.body.clientHeight - timerSize * 2 - calcWidth(45, 0)) / 2;
+const pos1 = timerSize * 2 + (document.body.clientHeight - timerSize * 2 - calcWidth(45, 0)) / 2 - fontSize;
+const pos0 = timerSize * 2 + (document.body.clientHeight - timerSize * 2 - calcWidth(45, 0)) / 2 - fontSize * 2;
+const opacity0 = 0;
+const opacity1 = 1;
+const opacity2 = 0.05;
+const opacity3 = 0;
+const minR = -9, maxR = 99;
 var gameRunning = false;
-var terms = 4;
+var homeButton = true;
+var terms = 3;
 
 class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.currentEquation = 0;
+        homeButton = true;
 		this.eq = [];
 	}
 
@@ -34,15 +37,16 @@ class Game extends React.Component {
 	correctAnswer() {
         this.score.scorePoint();
 		this.shiftEquations(true);
+        this.timer.equationSolved();
 	}
 
     shiftEquations(reset) {
         this.eq[this.currentEquation].slideTo(pos0, opacity0, false);
         this.eq[(this.currentEquation + 1) % 3].slideTo(pos1, opacity1, false);
         if(reset)
-            this.eq[(this.currentEquation + 2) % 3].slideTo(pos2, opacity2, true, pos3);
+            this.eq[(this.currentEquation + 2) % 3].slideTo(pos2, opacity2, true, pos3, true);
         else 
-            this.eq[(this.currentEquation + 2) % 3].slideTo(pos2, opacity2, false);
+            this.eq[(this.currentEquation + 2) % 3].slideTo(pos2, opacity2, true, pos3, false);
         this.currentEquation++;
         this.currentEquation %= 3;
     }
@@ -51,11 +55,25 @@ class Game extends React.Component {
         if(!gameRunning)
             return;
         gameRunning = false;
+        this.timer.initialize();
         this.startGame();
     }
 
-    componentDidMount() {
+    leaveGame() {
+        this.timer.transitionOut();
+        this.controls.transitionOut();
+        this.score.transitionOut();
+        this.menuControls.transitionOut();
+        playAnimation(this.equationContainer, 'fade_out_animation');
+    }
 
+    joinGame() {
+        this.timer.initialize();
+        this.timer.resetAnimation();
+        this.controls.resetAnimation();
+        this.score.resetAnimation();
+        this.menuControls.resetAnimation();
+        resetAnimation(this.equationContainer, 'fade_out_animation');
     }
 
     startGame() {
@@ -67,23 +85,34 @@ class Game extends React.Component {
         clearTimeout(this.timeout4);
         this.eq[this.currentEquation].setText('READY');
         this.eq[(this.currentEquation + 1) % 3].setText('SET');
-        this.eq[(this.currentEquation + 2) % 3].setText('QUICK MATHS');
+        this.eq[(this.currentEquation + 2) % 3].setText('QUICK MATHS!');
         this.timeout1 = setTimeout(() => this.shiftEquations(false), 1000);
         this.timeout2 = setTimeout(() => this.shiftEquations(true), 2000);
         this.timeout3 = setTimeout(() => this.shiftEquations(true), 3000);
         this.timeout4 = setTimeout(() => { this.timer.startCountdown(); gameRunning = true }, 3300);
     }
 
+    gameFinished(score) {
+        gameRunning = false;
+        homeButton = false;
+        var i = Math.floor(Math.random() * exclaimations.length);
+        this.eq[this.currentEquation].setText(exclaimations[i]);
+        this.eq[(this.currentEquation + 1) % 3].setText(exclaimations[(i + 1 + Math.floor(Math.random() * (exclaimations.length - 1))) % exclaimations.length]);
+        this.props.quickMaths.scoreScreen(score);
+    }
+
 	render () {
 		return (
 			<div>
-                <MenuControls quickMaths = { this.props.quickMaths } game = { this } />
+                <MenuControls quickMaths = { this.props.quickMaths } game = { this } ref = { ref => { this.menuControls = ref }}/>
                 <Score ref = { ref => { this.score = ref; }} />
-				<Timer ref = { ref => { this.timer = ref; }} />
-				<Equation game = { this } ref = { ref => { this.eq[2] = ref; }} offset = { pos3 } opacity = { opacity3 } />
-				<Equation game = { this } ref = { ref => { this.eq[1] = ref; }} offset = { pos2 } opacity = { opacity2 } />
-				<Equation game = { this } ref = { ref => { this.eq[0] = ref; }} offset = { pos1 } opacity = { opacity1 } />
-				<Controls callbackRef = { this } />
+				<Timer game = { this } ref = { ref => { this.timer = ref; }} />
+                <div ref = { ref => { this.equationContainer = ref }} className = 'fade_in_animation'>
+    				<Equation game = { this } ref = { ref => { this.eq[2] = ref; }} offset = { pos3 } opacity = { opacity3 } />
+    				<Equation game = { this } ref = { ref => { this.eq[1] = ref; }} offset = { pos2 } opacity = { opacity2 } />
+    				<Equation game = { this } ref = { ref => { this.eq[0] = ref; }} offset = { pos1 } opacity = { opacity1 } />
+                </div>
+				<Controls ref = { ref => { this.controls = ref }} callbackRef = { this } />
 			</div>
 		);
 	}
@@ -149,4 +178,14 @@ function lerp(a, b, t) {
 	if(t <= 0)
 		return a;
 	return a + (b - a) * t;
+}
+
+function playAnimation(container, animation) {
+    container.classList.remove(animation);
+    void container.offsetWidth;
+    container.classList.add(animation);
+}
+
+function resetAnimation(container, animation) {
+    container.classList.remove(animation);
 }

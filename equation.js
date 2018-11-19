@@ -4,6 +4,11 @@ const height = calcWidth(2500/98, 0);
 const fontSize = calcWidth(2575/98, 0);
 const numberRatios = [34.699, 17.957, 32.499, 33.4, 34.099, 33.199, 34.399, 28.6, 33.699, 34.399, 35.906];
 const letterRatios = [31.969, 33.98, 33.792, 35.18, 29.48, 28.78, 34.392, 35.98, 15.18, 32.946, 32.98, 28.28, 48.18, 37.48, 34.892, 32.78, 34.892, 34.38, 32.717, 27.755, 35.585, 31.969, 48.176, 32.167, 30.683, 29.757];
+const miscRatios = {
+	space: 13.162,
+	exclaimationMark: 15.575,
+	questionMark: 32.541
+}
 const timerSize = calcWidth(25, 0);
 const ratio = 86/8599.75;
 const symbols = ['+', '-', '*', '/'];
@@ -26,21 +31,23 @@ class Equation extends React.Component {
 	}
 
 	componentDidMount() {
-		this.setState({ offset: this.props.offset, opacity: this.props.opacity })
+		this.offset = this.props.offset;
+		this.opacity = this.props.opacity;
 	}
 
-	slideTo(endPos, endOp, reset, resetPos) {
+	slideTo(endPos, endOp, reset, resetPos, resetEq) {
 		if(reset) {
 			this.container.style.setProperty('-webkit-transition', 'none');
 			this.container.style.setProperty('-ms-transition', 'none');
 			this.container.style.marginTop = resetPos;
 			void this.container.offsetWidth;
-			this.reset();
 		}
-		this.container.style.setProperty('-webkit-transition', 'all 0.3s linear');
-		this.container.style.setProperty('-ms-transition', 'all 0.3s linear');
-		this.state.offset = endPos;
-		this.state.opacity = endOp;
+		this.container.style.setProperty('-webkit-transition', 'margin-top 0.3s linear, opacity 0.3s linear');
+		this.container.style.setProperty('-ms-transition', 'margin-top 0.3s linear, opacity 0.3s linear');
+		this.offset = endPos;
+		this.opacity = endOp;
+		if(resetEq)
+			this.reset();
 	}
 
 	reset() {
@@ -50,9 +57,7 @@ class Equation extends React.Component {
 	}
 
 	shake() {
-		this.container.classList.remove('shake-animation');
-		void this.container.offsetWidth;
-		this.container.classList.add('shake-animation');
+		playAnimation(this.container, 'shake-animation');
 	}
 
 	setEquation() {
@@ -61,22 +66,29 @@ class Equation extends React.Component {
 			values.push(Math.floor(Math.random() * 9) + 1)
 		var result = generateAnswer(values);
 
-		this.setState({ values: values, result: result, active: new Array(terms - 1).fill(false), symbol: [] });
+		this.values = values;
+		this.result = result;
+		this.active = new Array(terms - 1).fill(false);
+		this.symbol = [];
 		this.calcEquationWidth(values, result);
 		this.mounted = true;
 		this.equation = true;
 	}
 
 	setText(text) {
-		this.container.classList.remove('shake-animation');
+		resetAnimation(this.container, 'shake-animation');
 		this.equationWidth = 0;
 		for(var i = 0; i < text.length; i++) {
 			if(text[i] == ' ')
-				this.equationWidth += fontSize * ratio * 13.162;
+				this.equationWidth += fontSize * ratio * miscRatios.space;
+			else if(text[i] == '!')
+				this.equationWidth += fontSize * ratio * miscRatios.exclaimationMark;
+			else if(text[i] == '?')
+				this.equationWidth += fontSize * ratio * miscRatios.questionMark;
 			else
 				this.equationWidth += fontSize * letterRatios[text.charCodeAt(i) - 65] * ratio;
 		}
-		this.setState({ text: text });
+		this.text = text;
 		this.mounted = true;
 		this.equation = false;
 	}
@@ -98,17 +110,17 @@ class Equation extends React.Component {
 	activate(symbol) {
 		var operators = [];
 		for(var i = 0; i < terms - 1; i++) {
-			if(!this.state.active[i]) {
+			if(!this.active[i]) {
 				this.btn[i].open(symbol);
-				this.state.active[i] = true;
-				this.state.symbol[i] = symbol;
+				this.active[i] = true;
+				this.symbol[i] = symbol;
 				break;
 			}
 		}
 		for(var i = 0; i < terms - 1; i++) {
-			if(!this.state.active[i])
+			if(!this.active[i])
 				return;
-			switch(this.state.symbol[i]) {
+			switch(this.symbol[i]) {
 				case plus:
 					operators[i] = '+';
 					break;
@@ -123,46 +135,46 @@ class Equation extends React.Component {
 					break;
 			}
 		}
-		if(solveEquation(this.state.values.slice(0), operators) == this.state.result)
+		if(solveEquation(this.values.slice(0), operators) == this.result)
 			this.props.game.correctAnswer();
 		else 
 			this.shake();
 	}
 
 	disable(button) {
-		this.state.active[button] = false;
+		this.active[button] = false;
 	}
 
 	removeAllSymbols() {
 		for(var i = 0; i < terms - 1; i++) {
-			this.state.active[i] = false;
+			this.active[i] = false;
 			this.btn[i].close();
 		}
 	}
 
 	render () {
 		if(this.container != null)
-			this.container.style.marginTop = this.state.offset;
+			this.container.style.marginTop = this.offset;
 		return (
 			<div ref = { ref => { this.container = ref }} style = {{
-				opacity: this.mounted ? this.state.opacity : 0,
+				opacity: this.mounted ? this.opacity : 0,
 				position: 'absolute',
 				marginLeft: (calcWidth(100, 0) - this.equationWidth) / 2 + 'px',
 				fontSize: fontSize
 			}}>
 				{ this.equation ? 
 					<div>
-						<Term value = { this.mounted ? this.state.values[0] : 1 } />
+						<Term value = { this.mounted ? this.values[0] : 1 } />
 						<Button ref = { ref => { this.btn[0] = ref }} disabled = { () => this.disable(0) } />
-						<Term value = { this.mounted ? this.state.values[1] : 1 } />
+						<Term value = { this.mounted ? this.values[1] : 1 } />
 						<Button ref = { ref => { this.btn[1] = ref }} disabled = { () => this.disable(1) } />
-						<Term value = { this.mounted ? this.state.values[2] : 1 } />
+						<Term value = { this.mounted ? this.values[2] : 1 } />
 						{ terms == 4 ? <Button ref = { ref => { this.btn[2] = ref }} disabled = { () => this.disable(2) } /> : null }
-						{ terms == 4 ? <Term value = { this.mounted ?  this.state.values[3]: 1 } /> : null }
+						{ terms == 4 ? <Term value = { this.mounted ?  this.values[3]: 1 } /> : null }
 						<img style = { StylesE.equals } src = { equal } />
-						<Term value = { this.mounted ? this.state.result : 1 } />
+						<Term value = { this.mounted ? this.result : 1 } />
 					</div> :
-					this.mounted ? this.state.text : 'hello world'
+					this.mounted ? this.text : 'hello world'
 				}
 			</div>
 		);

@@ -1,16 +1,57 @@
+var muted = false;
+var wait = false;
+
 class QuickMaths extends React.Component {
 	constructor(props) {
 		super(props);
-		this.screen = 'menu'
+		setTimeout(() => { this.screen = 'menu' }, 200)
 	}
 
 	startGame() {
-		this.screen = 'game';
-		this.game.startGame();
+		if(wait)
+			return;
+		if(this.screen == 'menu')
+			this.menu.transitionOut();
+		else if(this.screen == 'score')
+			this.score.transitionOut();
+		wait = true;
+		homeButton = true;
+		this.game.joinGame();
+		setTimeout(() => {
+			this.screen = 'game';
+			this.game.startGame();
+			wait = false;
+		}, 700);
 	}
 
 	goHome() {
-		this.screen = 'menu';
+		if(wait)
+			return;
+		wait = true;
+		if(this.screen == 'game')
+			this.game.leaveGame();
+		else if(this.screen == 'score')
+			this.score.transitionOut();
+		setTimeout(() => {
+			this.screen = 'menu';
+			this.menu.reset();
+			wait = false;
+		}, 700);
+	}
+
+	scoreScreen(score) {
+		if(wait)
+			return;
+		wait = true;
+		if(this.screen == 'game')
+			setTimeout(() => {
+				this.game.leaveGame();
+			}, 1000);
+		setTimeout(() => {
+			this.screen = 'score';
+			this.score.reset(score);
+			wait = false;
+		}, 1700);
 	}
 
 	render () {
@@ -19,7 +60,12 @@ class QuickMaths extends React.Component {
 				<div style = {
 					this.screen != 'menu' ? { display: 'none' } : { display: 'initial' }
 				}> 
-					<Menu quickMaths = { this } />
+					<Menu quickMaths = { this } ref = { ref => { this.menu = ref }} />
+				</div>
+				<div style = {
+					this.screen != 'score' ? { display: 'none' } : { display: 'initial' }
+				}>
+					<ScoreScreen quickMaths = { this } ref = { ref => { this.score = ref }} />
 				</div>
 				<div style = {
 					this.screen != 'game' ? { display: 'none' } : { display: 'initial' }
@@ -29,6 +75,10 @@ class QuickMaths extends React.Component {
 			</div>
 		);
 	}
+}
+
+function toggleSound() {
+	muted = !muted;
 }
 
 function startGame(playerName) {
