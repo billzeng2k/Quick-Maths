@@ -84,6 +84,11 @@ html, body {
   animation: pulse 1s infinite alternate ease-in-out, fade-in 1.5s 1 ease-out;
 }
 
+.bob {
+  -webkit-animation: bob_up 1s infinite alternate ease-in-out;
+  animation: bob_up 1s infinite alternate ease-in-out;
+}
+
 .menu_button_animation1 {
   -webkit-animation: slide_up_top 1.5s 1 ease-out, bob_up 1s 1.5s infinite alternate ease-in-out;
   animation: slide_up_top 1.5s 1 ease-out, bob_up 1s 1.5s infinite alternate ease-in-out;
@@ -112,6 +117,19 @@ html, body {
 .emoji_animation {
   -webkit-animation: emoji 1.5s 1 ease-out;
   animation: emoji 1.5s 1 ease-out;
+}
+
+.tilt {
+  -webkit-animation: tilt 2s infinite linear;
+  animation: tilt 2s infinite linear;
+}
+
+@keyframes tilt {
+    0%   { transform: rotate(0); }
+    25%  { transform: rotate(2deg); }
+    50%  { transform: rotate(0); }
+    75%  { transform: rotate(-2deg); }
+    100% { transform: rotate(0); }
 }
 
 @keyframes emoji {
@@ -191,8 +209,8 @@ html, body {
 
 @keyframes slide_up_out {
     0%   { transform: translateY(0); }
-    50%  { transform: translateY(-100%); }
-    100% { transform: translateY(-100%); }
+    50%  { transform: translateY(-130%); }
+    100% { transform: translateY(-130%); }
 }
 
 @keyframes slide_down {

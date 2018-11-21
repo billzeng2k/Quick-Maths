@@ -1,6 +1,4 @@
-const fontSizeSB = calcWidth(1000/98, 0);
-
-class ScoreScreenButtons extends React.Component {
+class LeaderboardButtons extends React.Component {
 	constructor(props) {
 		super(props);
 		this.mb = [];
@@ -18,6 +16,13 @@ class ScoreScreenButtons extends React.Component {
 		playAnimation(this.mb[2], 'pop_down_animation');
 	}
 
+	playGame() {
+		if(FBInstant.context.getID() == null)
+			this.props.quickMaths.selectContext(this.props.quickMaths);
+		else 
+			this.props.quickMaths.startGame();
+	}
+
 	render() {
 		return (
 			<div style = { StylesMB.container }> 
@@ -27,10 +32,10 @@ class ScoreScreenButtons extends React.Component {
 						<div style = { StylesMB.menu_text }> Home </div>
 					</div>
 				</div>
-				<div id = 'button' className = 'menu_button_animation2' style = { StylesMB.menu_button } onClick = { () => this.props.quickMaths.displayLeaderboard() }>
+				<div id = 'button' className = 'menu_button_animation2' style = { StylesMB.menu_button } onClick = { () => this.playGame() }>
 					<div ref = { ref => { this.mb[1] = ref }} >
-						<img style = { StylesMB.menu_icon } src = { trophy } />
-						<div style = { StylesMB.menu_text }> Leaderboards </div>
+						<img style = { StylesMB.menu_icon } src = { play } />
+						<div style = { StylesMB.menu_text }> Play </div>
 					</div>
 				</div>
 				<div id = 'button' className = 'menu_button_animation3' onClick = { () => toggleSound() } style = { StylesMB.menu_button } >

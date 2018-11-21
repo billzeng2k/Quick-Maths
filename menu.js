@@ -18,7 +18,10 @@ class Menu extends React.Component {
 	}
 
 	playGame() {
-		this.props.quickMaths.startGame();
+		if(FBInstant.context.getID() == null)
+			this.props.quickMaths.selectContext(this.props.quickMaths);
+		else 
+			this.props.quickMaths.startGame();
 	}
 
 	transitionOut() {
@@ -38,7 +41,7 @@ class Menu extends React.Component {
 			<div>
 				<div className = 'slide_down_pop_animation' style = { StylesM.title } ref = { ref => { this.title = ref }} > Quick Maths </div>
 				<div className = 'pulse' onClick = { () => this.playGame() } style = { StylesM.text } > <div ref = { ref => { this.text = ref }}> Start Game </div> </div>
-				<MenuButtons ref = { ref => { this.menuButtons = ref }} />
+				<MenuButtons quickMaths = { this.props.quickMaths } ref = { ref => { this.menuButtons = ref }} />
 			</div>
 		);
 	}

@@ -1,10 +1,35 @@
 var muted = false;
 var wait = false;
+var highScore = 0;
 
 class QuickMaths extends React.Component {
 	constructor(props) {
 		super(props);
 		setTimeout(() => { this.screen = 'menu' }, 200)
+	}
+
+	selectContext(quickMaths) {
+		FBInstant.context
+		  .chooseAsync()
+		  .then(function() {
+		    FBInstant
+			  .getLeaderboardAsync('BaseGame.' + FBInstant.context.getID())
+			  .then(leaderboard => { return leaderboard.setScoreAsync(0); })
+			  .then(() => {
+			  	FBInstant
+				  .getLeaderboardAsync('BaseGame.' + FBInstant.context.getID())
+				  .then(leaderboard => leaderboard.getPlayerEntryAsync())
+				  .then(entry => {
+				    highScore = entry.getScore();
+				  }).catch(error => {
+				  	console.error(error);
+				  	highScore = 0;
+				  });
+			  	quickMaths.startGame()
+			  })
+			  .catch(error => console.error(error));
+		  })
+		  .catch(error => console.error(error));
 	}
 
 	startGame() {
@@ -14,6 +39,8 @@ class QuickMaths extends React.Component {
 			this.menu.transitionOut();
 		else if(this.screen == 'score')
 			this.score.transitionOut();
+		else if(this.screen == 'leaderboard')
+			this.leaderboard.transitionOut();
 		wait = true;
 		homeButton = true;
 		this.game.joinGame();
@@ -32,6 +59,8 @@ class QuickMaths extends React.Component {
 			this.game.leaveGame();
 		else if(this.screen == 'score')
 			this.score.transitionOut();
+		else if(this.screen == 'leaderboard')
+			this.leaderboard.transitionOut();
 		setTimeout(() => {
 			this.screen = 'menu';
 			this.menu.reset();
@@ -54,6 +83,21 @@ class QuickMaths extends React.Component {
 		}, 1700);
 	}
 
+	displayLeaderboard() {
+		if(wait)
+			return;
+		if(this.screen == 'menu')
+			this.menu.transitionOut();
+		else if(this.screen == 'score')
+			this.score.transitionOut();
+		wait = true;
+		setTimeout(() => {
+			this.screen = 'leaderboard';
+			this.leaderboard.reset();
+			wait = false;
+		}, 700);
+	}
+
 	render () {
 		return (
 			<div>
@@ -68,6 +112,11 @@ class QuickMaths extends React.Component {
 					<ScoreScreen quickMaths = { this } ref = { ref => { this.score = ref }} />
 				</div>
 				<div style = {
+					this.screen != 'leaderboard' ? { display: 'none' } : { display: 'initial' }
+				}>
+					<Leaderboard quickMaths = { this } ref = { ref => { this.leaderboard = ref }} />
+				</div>
+				<div style = {
 					this.screen != 'game' ? { display: 'none' } : { display: 'initial' }
 				}>
 					<Game quickMaths = { this } ref = { ref => { this.game = ref }} />
@@ -76,7 +125,7 @@ class QuickMaths extends React.Component {
 		);
 	}
 }
-
+//
 function toggleSound() {
 	muted = !muted;
 }
@@ -84,4 +133,8 @@ function toggleSound() {
 function startGame(playerName) {
 	const domContainer = document.querySelector('.game_container');
 	setInterval(function () { ReactDOM.render(<QuickMaths />, domContainer) }, 10);
+}
+
+function updateLeaderboards() {
+
 }
