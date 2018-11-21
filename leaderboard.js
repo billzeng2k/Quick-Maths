@@ -65,7 +65,7 @@ class Leaderboard extends React.Component {
 		for(var i = 0; i < this.entries.length; i++) {
 			if(FBInstant.player.getID() == this.entries[i].getPlayer().getID())
 				continue;
-			var entry = <Entry rank = { this.entries[i].getRank() } name = { this.entries[i].getPlayer().getName() } photo = { this.entries[i].getPlayer().getPhoto() } score = { this.entries[i].getScore() }/>;
+			var entry = <Entry key = { i } rank = { this.entries[i].getRank() } name = { this.entries[i].getPlayer().getName() } photo = { this.entries[i].getPlayer().getPhoto() } score = { this.entries[i].getScore() }/>;
 			elements.push(entry);
 		}
 		return elements;

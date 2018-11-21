@@ -5,7 +5,7 @@ var highScore = 0;
 class QuickMaths extends React.Component {
 	constructor(props) {
 		super(props);
-		setTimeout(() => { this.screen = 'menu' }, 200)
+		setTimeout(() => { this.screen = 'menu' }, 200);
 	}
 
 	selectContext(quickMaths) {

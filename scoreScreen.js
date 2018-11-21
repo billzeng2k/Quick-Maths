@@ -41,6 +41,7 @@ class ScoreScreen extends React.Component {
 
 	reset(score) {
 		if(highScore < score) {
+			highScore = score;
 			this.newBest = true;
 			FBInstant
 			  .getLeaderboardAsync('BaseGame.' + FBInstant.context.getID())
