@@ -16,6 +16,7 @@ const opacity3 = 0;
 const minR = -9, maxR = 99;
 var gameRunning = false;
 var homeButton = true;
+var tut = true, tutCnt = 0, tutAns = [];
 var terms = 3;
 
 class Game extends React.Component {
@@ -24,10 +25,14 @@ class Game extends React.Component {
 		this.currentEquation = 0;
         homeButton = true;
 		this.eq = [];
-        this.tut = 2;
+        this.solvedEq = [];
 	}
 
 	symbolPress(symbol) {
+        if(tut) {
+            tutCnt++;
+            this.controls.setTutorial();
+        }
 		this.eq[this.currentEquation].activate(symbol);
 	}
 
@@ -35,19 +40,15 @@ class Game extends React.Component {
 		this.eq[this.currentEquation].removeAllSymbols();
 	}
 
-	correctAnswer() {
-        this.score.scorePoint();
-        if(this.tut == 0) 
-            this.shiftEquations(true);
-        else if(this.tut == 2) {
-            this.tut--;
-            this.shiftTut();
-        } else if(this.tut == 1) {
-            this.shiftEquations(true);
+	correctAnswer(solution) {
+        this.solvedEq.push({ values: this.eq[this.currentEquation].getValues(), operators: solution, result: this.eq[this.currentEquation].getResult(), time: this.timer.equationSolved(), emoji: winEmojis[Math.floor(Math.random() * winEmojis.length)] });
+        if(tut) {
+            tut = false;
             this.controls.resetAnimation();
-            this.tut--;
-        } 
-        this.timer.equationSolved();
+        }
+        this.score.scorePoint();
+        this.shiftEquations(true);
+        
 	}
 
     shiftEquations(reset) {
@@ -59,17 +60,6 @@ class Game extends React.Component {
             this.eq[(this.currentEquation + 2) % 3].slideTo(pos2, opacity2, true, pos3, false);
         this.currentEquation++;
         this.currentEquation %= 3;
-    }
-
-    shiftTut() {
-        this.controls.resetAnimation();
-        this.shiftEquations(true);
-        if(this.tut == 2) 
-            this.controls.setTutorial(this.eq[this.currentEquation].getAnswer());
-        else {
-            this.eq[this.currentEquation].openTut(wrongAnswer(this.eq[this.currentEquation].getValues(), this.eq[this.currentEquation].getResult()));
-            this.controls.setTutorial();
-        }
     }
 
     resetGame() {
@@ -89,6 +79,7 @@ class Game extends React.Component {
     }
 
     joinGame() {
+        this.solvedEq = [];
         this.timer.initialize();
         this.timer.resetAnimation();
         this.controls.resetAnimation();
@@ -98,7 +89,7 @@ class Game extends React.Component {
     }
 
     startGame() {
-        this.tut = 2;
+        tut = true;    
         this.score.resetScore();
         this.timer.resetTime();
         clearTimeout(this.timeout1);
@@ -110,17 +101,18 @@ class Game extends React.Component {
         this.eq[(this.currentEquation + 2) % 3].setText('QUICK MATHS!');
         this.timeout1 = setTimeout(() => this.shiftEquations(false), 750);
         this.timeout2 = setTimeout(() => this.shiftEquations(true), 1500);
-        this.timeout3 = setTimeout(() => this.shiftTut(), 2250);
+        this.timeout3 = setTimeout(() => { this.shiftEquations(true); tut = true; tutCnt = 0; tutAns = this.eq[this.currentEquation].getAnswer(); this.controls.setTutorial() }, 2250);
         this.timeout4 = setTimeout(() => { this.timer.startCountdown(); gameRunning = true }, 2250);
     }
 
     gameFinished(score) {
+        this.solvedEq.push({ values: this.eq[this.currentEquation].getValues(), operators: convertToImages(this.eq[this.currentEquation].getAnswer()), result: this.eq[this.currentEquation].getResult(), time: 'FAILED', emoji: loseEmojis[Math.floor(Math.random() * loseEmojis.length)] });
         gameRunning = false;
         homeButton = false;
         var i = Math.floor(Math.random() * exclaimations.length);
         this.eq[this.currentEquation].setText(exclaimations[i]);
         this.eq[(this.currentEquation + 1) % 3].setText(exclaimations[(i + 1 + Math.floor(Math.random() * (exclaimations.length - 1))) % exclaimations.length]);
-        this.props.quickMaths.scoreScreen(score);
+        this.props.quickMaths.scoreScreen(score, this.solvedEq);
     }
 
 	render () {
@@ -211,6 +203,10 @@ function wrongAnswer(values, result) {
         else
             operators[terms - 2] = '+';
     } 
+    return convertToImages(operators);
+}
+
+function convertToImages(operators) {
     for(var i = 0; i < operators.length; i++) {
         switch(operators[i]) {
             case '+':

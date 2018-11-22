@@ -19,11 +19,6 @@ class Button extends React.Component {
 		this.props.disabled();
 		this.buttonRatio = 0.2;
 		this.active = false;
-		resetAnimation(this.btn, 'color');
-	}
-
-	color() {
-		playAnimation(this.btn, 'color');
 	}
 
 	render () {
@@ -41,7 +36,7 @@ class Button extends React.Component {
 					boxSizing: 'border-box',
 					border: borderSize + 'px solid black',
 					borderRadius: '10000px',
-					backgroundColor: 'transparent',
+					backgroundColor: tut ?'rgba(241, 196, 15, 0.25)' : 'transparent',
 					margin: 'auto',
 					width: buttonSize * this.buttonRatio + 'px',
 					height: buttonSize * this.buttonRatio + 'px',

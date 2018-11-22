@@ -46,7 +46,7 @@ class MenuButtons extends React.Component {
 				<div id = 'button' className = 'menu_button_animation1' style = { StylesMB.menu_button } onClick = { () => this.props.quickMaths.displayLeaderboard() }>
 					<div ref = { ref => { this.mb[0] = ref }} >
 						<img style = { StylesMB.menu_icon } src = { trophy } />
-						<div style = { StylesMB.menu_text }> Leaderboard </div>
+						<div style = { StylesMB.menu_text }> Leaderboards </div>
 					</div>
 				</div>
 				<div id = 'button' className = 'menu_button_animation2' style = { StylesMB.menu_button } onClick = { () => this.props.quickMaths.selectContext(this.props.quickMaths) }>

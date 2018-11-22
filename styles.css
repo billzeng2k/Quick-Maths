@@ -37,8 +37,17 @@ html, body {
   pointer-events: none;
 }
 
-.color {
+.colorG {
   background-color: rgba(46, 204, 113, 0.25) !important;
+}
+
+.colorY {
+  background-color: rgba(241, 196, 15, 0.25) !important;
+}
+
+.tease_animation {
+  -webkit-animation: tease 3s infinite ease-in-out;
+  animation: tease 3s infinite ease-in-out;
 }
 
 .slide_up_pop_animation {
@@ -136,11 +145,33 @@ html, body {
   animation: tilt 2s infinite linear;
 }
 
+.tilt_more {
+  -webkit-animation: tilt 2s infinite linear;
+  animation: tilt 2s infinite linear;
+}
+
+@keyframes tease {
+    0%   { transform: rotate(0); }
+    50%  { transform: rotate(0); }
+    55%  { transform: rotate(3deg); }
+    60%  { transform: rotate(-3deg); }
+    65%  { transform: rotate(0); }
+    100% { transform: rotate(0); }
+}
+
 @keyframes tilt {
     0%   { transform: rotate(0); }
     25%  { transform: rotate(2deg); }
     50%  { transform: rotate(0); }
     75%  { transform: rotate(-2deg); }
+    100% { transform: rotate(0); }
+}
+
+@keyframes tilt_more {
+    0%   { transform: rotate(0); }
+    25%  { transform: rotate(5deg); }
+    50%  { transform: rotate(0); }
+    75%  { transform: rotate(-5deg); }
     100% { transform: rotate(0); }
 }
 
@@ -166,16 +197,6 @@ html, body {
 @keyframes pulse {
     from { transform: scale(1); }
     to   { transform: scale(0.9); }
-}
-
-@keyframes pulse_out {
-    from { transform: scale(1); }
-    to   { transform: scale(1.1); }
-}
-
-@keyframes pulse_out_s {
-    from { transform: scale(1); }
-    to   { transform: scale(1.035); }
 }
 
 @keyframes fade-in {

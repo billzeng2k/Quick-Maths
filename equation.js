@@ -105,15 +105,6 @@ class Equation extends React.Component {
 		this.equation = false;
 	}
 
-	openTut(operators) {
-		for(var i = 0; i < operators.length; i++) {
-			this.btn[i].open(operators[i]);
-			this.btn[i].color();
-			this.active[i] = true;
-			this.symbol[i] = operators[i];
-		}
-	}
-
 	calcEquationWidth(values, result) {
 		this.equationWidth = 0;
 		for(var i = 0; i < values.length; i++) 
@@ -157,13 +148,17 @@ class Equation extends React.Component {
 			}
 		}
 		if(solveEquation(this.values.slice(0), operators) == this.result)
-			this.props.game.correctAnswer();
+			this.props.game.correctAnswer(this.symbol);
 		else 
 			this.shake();
 	}
 
 	disable(button) {
 		this.active[button] = false;
+		if(tut) {
+			tutCnt = Math.min(tutCnt, button);
+			this.props.game.controls.setTutorial();
+		}
 	}
 
 	removeAllSymbols() {

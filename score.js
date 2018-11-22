@@ -23,7 +23,6 @@ class Score extends React.Component {
 		super(props);
 		this.mounted = false;
 		this.emoji = grin;
-		this.winEmojis = [grin, love, cool, angel, silly, smile];
 	}
 
 	componentDidMount() {
@@ -37,7 +36,7 @@ class Score extends React.Component {
 
 	scorePoint() {
 		this.score++;
-		this.emoji = this.winEmojis[Math.floor(Math.random() * this.winEmojis.length)];
+		this.emoji = winEmojis[Math.floor(Math.random() * winEmojis.length)];
 		playAnimation(this.emojiContainer, 'emoji_animation');
 	}
 

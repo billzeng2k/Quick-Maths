@@ -3,7 +3,7 @@ const timerSize = calcWidth(25, 0);
 const timeSize = calcWidth(2500/98, 0);
 
 const circumference = timerSize * 2 * Math.PI;
-const sequence = ['inf', 'inf', 15, 13, 12, 11, 10, 10, 9, 9, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3];
+const sequence = ['inf', 15, 13, 12, 11, 10, 10, 9, 9, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3];
 var gameTime = sequence[0];
 var time = gameTime + 1;
 
@@ -59,11 +59,13 @@ class Timer extends React.Component {
 	}
 
 	equationSolved() {
+		var timeElapsed = new Date().getTime() - this.startTime;
 		this.score++;
 		if(this.score < sequence.length)
 			gameTime = sequence[this.score];
 		this.resetTime();
 		this.startCountdown();
+		return timeElapsed / 1000;
 	}
 
 	done() {
@@ -80,6 +82,7 @@ class Timer extends React.Component {
 	startCountdown() {
 		clearInterval(this.counter);
 		time = gameTime + 1;
+		this.startTime = new Date().getTime();
 		this.counter = setInterval(function() {
 			time--;
 		}, 1000);

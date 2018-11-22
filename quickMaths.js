@@ -68,7 +68,7 @@ class QuickMaths extends React.Component {
 		}, 700);
 	}
 
-	scoreScreen(score) {
+	scoreScreen(score, solvedEq) {
 		if(wait)
 			return;
 		wait = true;
@@ -78,7 +78,7 @@ class QuickMaths extends React.Component {
 			}, 1000);
 		setTimeout(() => {
 			this.screen = 'score';
-			this.score.reset(score);
+			this.score.reset(score, solvedEq);
 			wait = false;
 		}, 1700);
 	}
