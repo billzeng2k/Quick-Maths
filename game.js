@@ -14,6 +14,7 @@ const opacity1 = 1;
 const opacity2 = 0.05;
 const opacity3 = 0;
 const minR = -9, maxR = 99;
+const tutM = ['', 'Press the circles or the clear button to reset the equation', 'Press the symbols to\nsolve the equation!'];
 var gameRunning = false;
 var homeButton = true;
 var terms = 3;
@@ -24,6 +25,7 @@ class Game extends React.Component {
 		this.currentEquation = 0;
         homeButton = true;
 		this.eq = [];
+        this.tut = 2;
 	}
 
 	symbolPress(symbol) {
@@ -36,7 +38,18 @@ class Game extends React.Component {
 
 	correctAnswer() {
         this.score.scorePoint();
-		this.shiftEquations(true);
+        if(this.tut == 0) 
+            this.shiftEquations(true);
+        else if(this.tut == 2) {
+            this.shiftEquations(true);
+            setTimeout(() => this.shiftTut(), 300);
+            this.tut--;
+        } else if(this.tut == 1) {
+            this.shiftEquations(true);
+            setTimeout(() => this.shiftEquations(true), 300);
+            this.controls.resetAnimation();
+            this.tut--;
+        } 
         this.timer.equationSolved();
 	}
 
@@ -49,6 +62,22 @@ class Game extends React.Component {
             this.eq[(this.currentEquation + 2) % 3].slideTo(pos2, opacity2, true, pos3, false);
         this.currentEquation++;
         this.currentEquation %= 3;
+    }
+
+    shiftTut() {
+        this.controls.resetAnimation();
+        this.eq[this.currentEquation].slideTo(pos0, opacity0, false);
+        this.eq[(this.currentEquation + 1) % 3].slideTo(pos1, opacity1, false);
+        this.eq[(this.currentEquation + 2) % 3].setTut(tutM[this.tut]);
+        this.eq[(this.currentEquation + 2) % 3].slideTo(pos2, opacity1, true, pos3, false);
+        this.currentEquation++;
+        this.currentEquation %= 3;
+        if(this.tut == 2) 
+            this.controls.setTutorial(this.eq[this.currentEquation].getAnswer());
+        else {
+            this.eq[this.currentEquation].activateTut(wrongAnswer(this.eq[this.currentEquation].getValues(), this.eq[this.currentEquation].getResult()));
+            this.controls.setTutorial();
+        }
     }
 
     resetGame() {
@@ -77,6 +106,7 @@ class Game extends React.Component {
     }
 
     startGame() {
+        this.tut = 2;
         this.score.resetScore();
         this.timer.resetTime();
         clearTimeout(this.timeout1);
@@ -86,10 +116,10 @@ class Game extends React.Component {
         this.eq[this.currentEquation].setText('READY');
         this.eq[(this.currentEquation + 1) % 3].setText('SET');
         this.eq[(this.currentEquation + 2) % 3].setText('QUICK MATHS!');
-        this.timeout1 = setTimeout(() => this.shiftEquations(false), 1000);
-        this.timeout2 = setTimeout(() => this.shiftEquations(true), 2000);
-        this.timeout3 = setTimeout(() => this.shiftEquations(true), 3000);
-        this.timeout4 = setTimeout(() => { this.timer.startCountdown(); gameRunning = true }, 3300);
+        this.timeout1 = setTimeout(() => this.shiftEquations(false), 750);
+        this.timeout2 = setTimeout(() => this.shiftEquations(true), 1500);
+        this.timeout3 = setTimeout(() => this.shiftTut(this.tut), 2250);
+        this.timeout4 = setTimeout(() => { this.timer.startCountdown(); gameRunning = true }, 2250);
     }
 
     gameFinished(score) {
@@ -120,13 +150,16 @@ class Game extends React.Component {
 
 function generateAnswer(values) {
     var ans = [];
+    var sol = [];
     if(terms == 4) {
         for(var i = 0; i < symbols.length; i++) {
         	for(var j = 0; j < symbols.length; j++) {
         		for(var k = 0; k < symbols.length; k++) {
         			var answer = solveEquation(values.slice(0), [symbols[i], symbols[j], symbols[k]]);
-        			if(answer <= maxR && answer >= minR)
+        			if(answer <= maxR && answer >= minR) {
         				ans.push(answer);
+                        sol.push([symbols[i], symbols[j], symbols[k]]);
+                    }
         		}
         	}
         }
@@ -134,12 +167,15 @@ function generateAnswer(values) {
         for(var i = 0; i < symbols.length; i++) {
             for(var j = 0; j < symbols.length; j++) {
                 var answer = solveEquation(values.slice(0), [symbols[i], symbols[j]]);
-                if(answer <= maxR && answer >= minR)
+                if(answer <= maxR && answer >= minR){
                     ans.push(answer);
+                    sol.push([symbols[i], symbols[j]]);
+                }
             }
         }
     }
-    return ans[Math.floor(Math.random() * ans.length)];
+    var index = Math.floor(Math.random() * ans.length);
+    return { result: ans[index], answer: sol[index] };
 }
 
 function solveEquation(values, operators) {
@@ -170,6 +206,36 @@ function solveEquation(values, operators) {
         }
     }
     return values[0] % 1 == 0 ? values[0] : maxR + 1;
+}
+
+function wrongAnswer(values, result) {
+    var operators = [];
+    for(var i = 0; i < terms - 2; i++)
+        operators.push(symbols[Math.floor(Math.random() * symbols.length)]);
+    operators.push(symbols[Math.floor(Math.random() * 2)]);
+    if(solveEquation(values.slice(0), result) == result){
+        if(operators[terms - 2] == '+')
+            operators[terms - 2] = '-';
+        else
+            operators[terms - 2] = '+';
+    } 
+    for(var i = 0; i < operators.length; i++) {
+        switch(operators[i]) {
+            case '+':
+                operators[i] = plus;
+                continue;
+            case '-':
+                operators[i] = minus;
+                continue;
+            case '*':
+                operators[i] = multiply;
+                continue;
+            case '/':
+                operators[i] = divide;
+                continue;
+        }
+    }
+    return operators;
 }
 
 function lerp(a, b, t) {

@@ -19,6 +19,11 @@ class Button extends React.Component {
 		this.props.disabled();
 		this.buttonRatio = 0.2;
 		this.active = false;
+		resetAnimation(this.btn, 'pulse_tut');
+	}
+
+	pulseTut() {
+		playAnimation(this.btn, 'pulse_tut');
 	}
 
 	render () {
@@ -28,7 +33,7 @@ class Button extends React.Component {
 					position: 'relative',
 					display: 'inline-block',
 					top: (- fontSize / 5 - (1 - this.buttonRatio) * buttonSize / 3) + 'px',
-					right: buttonSize * 0.05 + 'px',
+					right: buttonSize * 0.025 + 'px',
 					WebkitTransition: 'all 0.2s linear',
 					msTransition: 'all 0.2s linear'
 				}}>
@@ -42,7 +47,7 @@ class Button extends React.Component {
 					height: buttonSize * this.buttonRatio + 'px',
 					WebkitTransition: 'all 0.2s linear',
 					msTransition: 'all 0.2s linear'
-				}} onClick = { () => this.close() } id = 'button'> 
+				}} onClick = { () => this.close() } id = 'button' ref = { ref => { this.btn = ref }}> 
 					<img style = {{ 
 						opacity: this.active ? 1 : 0,
 						width: '60%',

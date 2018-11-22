@@ -9,8 +9,12 @@
 }
 
 html, body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
 	overflow-y: hidden;
 	overflow-x: hidden;
+  position: fixed;
 }
 
 #button:active {
@@ -84,6 +88,16 @@ html, body {
   animation: pulse 1s infinite alternate ease-in-out, fade-in 1.5s 1 ease-out;
 }
 
+.pulse_tut {
+  -webkit-animation: pulse_out 1s infinite alternate ease-in-out;
+  animation: pulse_out 1s infinite alternate ease-in-out;
+}
+
+.pulse_tut_s {
+  -webkit-animation: pulse_out_s 1s infinite alternate ease-in-out;
+  animation: pulse_out_s 1s infinite alternate ease-in-out;
+}
+
 .bob {
   -webkit-animation: bob_up 1s infinite alternate ease-in-out;
   animation: bob_up 1s infinite alternate ease-in-out;
@@ -152,8 +166,18 @@ html, body {
 }
 
 @keyframes pulse {
-    from { transform: scale(0.9); }
-    to   { transform: scale(1); }
+    from { transform: scale(1); }
+    to   { transform: scale(0.9); }
+}
+
+@keyframes pulse_out {
+    from { transform: scale(1); }
+    to   { transform: scale(1.1); }
+}
+
+@keyframes pulse_out_s {
+    from { transform: scale(1); }
+    to   { transform: scale(1.035); }
 }
 
 @keyframes fade-in {

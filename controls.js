@@ -37,6 +37,7 @@ const StylesC = {
 class Controls extends React.Component {
 	constructor(props) {
 		super(props);
+		this.buttons = {};
 	}
 
 	activateSymbol(symbol) {
@@ -45,6 +46,7 @@ class Controls extends React.Component {
 	}
 
 	removeAllSymbols() {
+		resetAnimation(this.clear, 'pulse_tut_s');
 		if(gameRunning)
 			this.props.callbackRef.removeAllSymbols();
 	}
@@ -55,26 +57,40 @@ class Controls extends React.Component {
 
 	resetAnimation() {
 		resetAnimation(this.container, 'slide_down_animation');
+		resetAnimation(this.buttons['+'], 'pulse_tut');
+		resetAnimation(this.buttons['-'], 'pulse_tut');
+		resetAnimation(this.buttons['*'], 'pulse_tut');
+		resetAnimation(this.buttons['/'], 'pulse_tut');
+		resetAnimation(this.clear, 'pulse_tut_s');
+	}
+
+	setTutorial(answer) {
+		if(answer == null)
+			playAnimation(this.clear, 'pulse_tut_s');
+		else {
+			for(var i = 0; i < answer.length; i++) 
+				playAnimation(this.buttons[answer[i]], 'pulse_tut');
+		}
 	}
 
 	render () {
 		return (
 			<div className = 'slide_up_pop_animation' style = { StylesC.container } ref = { ref => { this.container = ref }} >
 				<div style = {{ width: '100%' }}>
-					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(plus) }>
+					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(plus) } ref = { ref => { this.buttons['+'] = ref }}>
 						<img style = { StylesC.symbolImg } src = { plus } />
 					</div>
-					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(minus) }> 
+					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(minus) } ref = { ref => { this.buttons['-'] = ref }}> 
 						<img style = { StylesC.symbolImg } src = { minus } />
 					</div>
-					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(multiply) }>
+					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(multiply) } ref = { ref => { this.buttons['*'] = ref }}>
 						<img style = { StylesC.symbolImg } src = { multiply } />
 					</div>
-					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(divide) }> 
+					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(divide) } ref = { ref => { this.buttons['/'] = ref }}> 
 						<img style = { StylesC.symbolImg } src = { divide } />
 					</div>
 				</div>
-				<div id = 'button' style = { StylesC.clear } onClick = { () => this.removeAllSymbols() }> CLEAR </div>
+				<div id = 'button' style = { StylesC.clear } onClick = { () => this.removeAllSymbols() } ref = { ref => { this.clear = ref }}> CLEAR </div>
 			</div>
 		);
 	}

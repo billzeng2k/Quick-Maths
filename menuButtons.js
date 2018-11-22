@@ -14,7 +14,7 @@ const StylesMB = {
 		width: '60%'
 	},
 	menu_icon_big: {
-		width: '70%'
+		width: '85%'
 	},
 	menu_text: {
 		fontSize: fontSize + 'px',
@@ -45,8 +45,8 @@ class MenuButtons extends React.Component {
 			<div style = { StylesMB.container }> 
 				<div id = 'button' className = 'menu_button_animation1' style = { StylesMB.menu_button } onClick = { () => this.props.quickMaths.displayLeaderboard() }>
 					<div ref = { ref => { this.mb[0] = ref }} >
-						<img style = { StylesMB.menu_icon } src = { tutorial } />
-						<div style = { StylesMB.menu_text }> Tutorial </div>
+						<img style = { StylesMB.menu_icon } src = { trophy } />
+						<div style = { StylesMB.menu_text }> Leaderboard </div>
 					</div>
 				</div>
 				<div id = 'button' className = 'menu_button_animation2' style = { StylesMB.menu_button } onClick = { () => this.props.quickMaths.selectContext(this.props.quickMaths) }>

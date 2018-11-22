@@ -3,7 +3,7 @@ const timerSize = calcWidth(25, 0);
 const timeSize = calcWidth(2500/98, 0);
 
 const circumference = timerSize * 2 * Math.PI;
-const sequence = [15, 13, 12, 11, 10, 10, 9, 9, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3];
+const sequence = ['inf', 'inf', 15, 13, 12, 11, 10, 10, 9, 9, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3];
 var gameTime = sequence[0];
 var time = gameTime + 1;
 
@@ -23,6 +23,13 @@ const StylesT = {
 		bottom: 0,
 		left: 0, 
 		right: 0
+	},
+	inf: {
+		position: 'absolute',
+		width: timeSize * 1.25  + 'px',
+		top: timeSize / 2.3 + 'px',
+		bottom: 0,
+		left: timeSize / 2.4 + 'px', 
 	},
 	svg: {	
   		width: (timerSize * 2 + borderSize * 2) + 'px',
@@ -95,10 +102,14 @@ class Timer extends React.Component {
 		if(time <= 0 && gameRunning) 
 			this.done();
 		if(this.mounted)
-			this.countdown.style.setProperty('stroke-dashoffset', circumference * (gameTime - Math.max(time - 1, 0)) / gameTime);
+			this.countdown.style.setProperty('stroke-dashoffset', gameTime == 'inf' ? 0 : circumference * (gameTime - Math.max(time - 1, 0)) / gameTime);
 		return (
 			<div ref = { ref => { this.container = ref }} className = 'pop_up_animation' style = { StylesT.container }>
-				<p style = { StylesT.time }> { Math.min(time, gameTime) } </p>
+				{ 
+					gameTime == 'inf' ? 
+					<img style = { StylesT.inf } src = { infinite } /> :
+					<p style = { StylesT.time }> { Math.min(time, gameTime) } </p>
+				}
 				<svg style = { StylesT.svg }>
 					<circle id = "timer" style = { StylesT.circle } r = { timerSize + 'px' } cx = { (borderSize + timerSize) + 'px' } cy = { (borderSize + timerSize) + 'px' } />
 				</svg>
