@@ -79,7 +79,7 @@ class ScoreScreen extends React.Component {
 	toggleHistory() {
 		this.once = true;
 		this.history = !this.history;
-		this.buttons.toggleHistory();
+		this.buttons.toggleHistory(this.newBest);
 	}
 
 	renderScoreEntries() {
@@ -95,7 +95,7 @@ class ScoreScreen extends React.Component {
 	render() {
 		return (
 			<div style = { StylesSS.container }>
-				<img id = 'button' className = 'fade_in_animation tease_animation' src = { book } style = { StylesSS.book } onClick = { () => this.toggleHistory() } ref = { ref => { this.book = ref }}/>
+				<img id = 'button' className = 'tease_animation' src = { book } style = { StylesSS.book } onClick = { () => this.toggleHistory() } ref = { ref => { this.book = ref }}/>
 				<div className = 'slide_down_pop_animation' style = {{ marginTop: calcHeight(2, 0) + 'px' }} ref = { ref => { this.scoreContainer = ref }}>
 					<img className = 'bob' style = { this.newBest ? { width: calcWidth(20, 0) + 'px' } : { display: 'none' }} src = { crown } />
 					<div style = { StylesSS.score }> { this.score } </div>
@@ -131,7 +131,7 @@ class ScoreScreen extends React.Component {
 					overflowX: 'hidden',
 					paddingRight: '17px',
 					width: calcWidth(100, 0),
-					height: calcHeight(100, -fontSizeSS * 4),
+					height: calcHeight(100, -fontSizeSS * (this.newBest ? 4.5 : 4)),
 					bottom: 0,
 					position: 'fixed'
 				}
@@ -141,7 +141,7 @@ class ScoreScreen extends React.Component {
 					overflowX: 'hidden',
 					paddingRight: '17px',
 					width: calcWidth(100, 0),
-					height: calcHeight(100, -fontSizeSS * 4),
+					height: calcHeight(100, -fontSizeSS * (this.newBest ? 4.5 : 4)),
 					bottom: '-100%',
 					position: 'fixed'
 				}}> 
@@ -153,7 +153,7 @@ class ScoreScreen extends React.Component {
 					msTransition: this.once ? 'all 1s ease-out' : 'none',
 					pointerEvents: 'none',
 					position: 'absolute',
-					height: calcHeight(100, -fontSizeSS * 4),
+					height: calcHeight(100, -fontSizeSS * (this.newBest ? 4.5 : 4)),
 					bottom: 0,
 					width: '100%',
 					zIndex: 1,
@@ -164,7 +164,7 @@ class ScoreScreen extends React.Component {
 					msTransition: this.once ? 'all 1s ease-out' : 'none',
 					pointerEvents: 'none',
 					position: 'absolute',
-					height: calcHeight(100, -fontSizeSS * 4),
+					height: calcHeight(100, -fontSizeSS * (this.newBest ? 4.5 : 4)),
 					bottom: '-100%',
 					width: '100%',
 					zIndex: 1,

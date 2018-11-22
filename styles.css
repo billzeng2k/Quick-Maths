@@ -46,8 +46,8 @@ html, body {
 }
 
 .tease_animation {
-  -webkit-animation: tease 3s infinite ease-in-out;
-  animation: tease 3s infinite ease-in-out;
+  -webkit-animation: tease 3s infinite ease-in-out, fade-in 1.5s 1 ease-out;
+  animation: tease 3s infinite ease-in-out, fade-in 1.5s 1 ease-out;
 }
 
 .slide_up_pop_animation {

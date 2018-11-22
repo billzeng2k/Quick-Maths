@@ -22,15 +22,16 @@ class ScoreScreenButtons extends React.Component {
 		playAnimation(this.mb[2], 'pop_down_animation');
 	}
 
-	toggleHistory() {
+	toggleHistory(newBest) {
 		this.once = true;
 		this.history = !this.history;
+		this.newBest = newBest;
 	}
 
 	render() {
 		return (
 			<div style = { this.history ? 
-				{ position: 'absolute', bottom: calcHeight(100, - fontSizeSB * 10), WebkitTransition: this.once ? 'all 1s ease-out' : 'none', msTransition: this.once ? 'all 1s ease-out' : 'none' }
+				{ position: 'absolute', bottom: calcHeight(100, - fontSizeSB * (this.newBest ? 11.25 : 10)), WebkitTransition: this.once ? 'all 1s ease-out' : 'none', msTransition: this.once ? 'all 1s ease-out' : 'none' }
 				: { position: 'absolute', bottom: 0, WebkitTransition: this.once ? 'all 1s ease-out' : 'none', msTransition: this.once ? 'all 1s ease-out' : 'none' }}> 
 				<div id = 'button' className = 'menu_button_animation1' onClick = { () => this.props.quickMaths.goHome() } style = { StylesMB.menu_button }>
 					<div ref = { ref => { this.mb[0] = ref }} >
