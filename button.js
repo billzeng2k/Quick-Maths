@@ -19,11 +19,11 @@ class Button extends React.Component {
 		this.props.disabled();
 		this.buttonRatio = 0.2;
 		this.active = false;
-		resetAnimation(this.btn, 'pulse_tut');
+		resetAnimation(this.btn, 'color');
 	}
 
-	pulseTut() {
-		playAnimation(this.btn, 'pulse_tut');
+	color() {
+		playAnimation(this.btn, 'color');
 	}
 
 	render () {

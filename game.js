@@ -14,7 +14,6 @@ const opacity1 = 1;
 const opacity2 = 0.05;
 const opacity3 = 0;
 const minR = -9, maxR = 99;
-const tutM = ['', 'Press the circles or the clear button to reset the equation', 'Press the symbols to\nsolve the equation!'];
 var gameRunning = false;
 var homeButton = true;
 var terms = 3;
@@ -41,12 +40,10 @@ class Game extends React.Component {
         if(this.tut == 0) 
             this.shiftEquations(true);
         else if(this.tut == 2) {
-            this.shiftEquations(true);
-            setTimeout(() => this.shiftTut(), 300);
             this.tut--;
+            this.shiftTut();
         } else if(this.tut == 1) {
             this.shiftEquations(true);
-            setTimeout(() => this.shiftEquations(true), 300);
             this.controls.resetAnimation();
             this.tut--;
         } 
@@ -66,16 +63,11 @@ class Game extends React.Component {
 
     shiftTut() {
         this.controls.resetAnimation();
-        this.eq[this.currentEquation].slideTo(pos0, opacity0, false);
-        this.eq[(this.currentEquation + 1) % 3].slideTo(pos1, opacity1, false);
-        this.eq[(this.currentEquation + 2) % 3].setTut(tutM[this.tut]);
-        this.eq[(this.currentEquation + 2) % 3].slideTo(pos2, opacity1, true, pos3, false);
-        this.currentEquation++;
-        this.currentEquation %= 3;
+        this.shiftEquations(true);
         if(this.tut == 2) 
             this.controls.setTutorial(this.eq[this.currentEquation].getAnswer());
         else {
-            this.eq[this.currentEquation].activateTut(wrongAnswer(this.eq[this.currentEquation].getValues(), this.eq[this.currentEquation].getResult()));
+            this.eq[this.currentEquation].openTut(wrongAnswer(this.eq[this.currentEquation].getValues(), this.eq[this.currentEquation].getResult()));
             this.controls.setTutorial();
         }
     }
@@ -118,7 +110,7 @@ class Game extends React.Component {
         this.eq[(this.currentEquation + 2) % 3].setText('QUICK MATHS!');
         this.timeout1 = setTimeout(() => this.shiftEquations(false), 750);
         this.timeout2 = setTimeout(() => this.shiftEquations(true), 1500);
-        this.timeout3 = setTimeout(() => this.shiftTut(this.tut), 2250);
+        this.timeout3 = setTimeout(() => this.shiftTut(), 2250);
         this.timeout4 = setTimeout(() => { this.timer.startCountdown(); gameRunning = true }, 2250);
     }
 

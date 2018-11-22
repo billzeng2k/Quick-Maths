@@ -25,7 +25,6 @@ const StylesE = {
 class Equation extends React.Component {
 	constructor(props) {
 		super(props);
-		this.tut = false;
 		this.mounted = false;
 		this.equationWidth = 0;
 		this.btn = [];
@@ -62,7 +61,6 @@ class Equation extends React.Component {
 	}
 
 	setEquation() {
-		this.tut = false;
 		var values = [];
 		for(var i = 0; i < terms; i++)
 			values.push(Math.floor(Math.random() * 9) + 1)
@@ -90,7 +88,6 @@ class Equation extends React.Component {
 	}
 
 	setText(text) {
-		this.tut = false;
 		resetAnimation(this.container, 'shake-animation');
 		this.equationWidth = 0;
 		for(var i = 0; i < text.length; i++) {
@@ -108,10 +105,13 @@ class Equation extends React.Component {
 		this.equation = false;
 	}
 
-	setTut(text) {
-		this.tut = true;
-		this.text = text;
-		this.equation = false;
+	openTut(operators) {
+		for(var i = 0; i < operators.length; i++) {
+			this.btn[i].open(operators[i]);
+			this.btn[i].color();
+			this.active[i] = true;
+			this.symbol[i] = operators[i];
+		}
 	}
 
 	calcEquationWidth(values, result) {
@@ -126,15 +126,6 @@ class Equation extends React.Component {
 		if(result < 0)
 			this.equationWidth += fontSize * numberRatios[10] * ratio;
 		this.equationWidth += borderSize * terms + buttonSize * terms;
-	}
-
-	activateTut(symbols){
-		for(var i = 0; i < symbols.length; i++) {
-			this.btn[i].open(symbols[i]);
-			this.btn[i].pulseTut();
-			this.active[i] = true;
-			this.symbol[i] = symbols[i];
-		}
 	}
 
 	activate(symbol) {
@@ -189,12 +180,10 @@ class Equation extends React.Component {
 			<div ref = { ref => { this.container = ref }} style = {{
 				opacity: this.mounted ? this.opacity : 0,
 				position: 'absolute',
-				marginLeft: this.tut? 0 : (calcWidth(100, 0) - this.equationWidth) / 2 + 'px',
+				marginLeft: (calcWidth(100, 0) - this.equationWidth) / 2 + 'px',
 				fontSize: fontSize
 			}}>
 				{ 
-					this.tut ? 
-					<div style = {{ fontSize: fontSize / 2, textAlign: 'center' }}> { this.text } </div> : 
 					this.equation ? 
 					<div>
 						<Term value = { this.mounted ? this.values[0] : 1 } />

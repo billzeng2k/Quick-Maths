@@ -33,6 +33,14 @@ html, body {
     100% { left: 0; }
 }
 
+.unclickable {
+  pointer-events: none;
+}
+
+.color {
+  background-color: rgba(46, 204, 113, 0.25) !important;
+}
+
 .slide_up_pop_animation {
 	-webkit-animation: slide_up_pop 0.5s 1 ease-out;
 	animation: slide_up_pop 0.5s 1 ease-out;
@@ -86,16 +94,6 @@ html, body {
 .pulse {
   -webkit-animation: pulse 1s infinite alternate ease-in-out, fade-in 1.5s 1 ease-out;
   animation: pulse 1s infinite alternate ease-in-out, fade-in 1.5s 1 ease-out;
-}
-
-.pulse_tut {
-  -webkit-animation: pulse_out 1s infinite alternate ease-in-out;
-  animation: pulse_out 1s infinite alternate ease-in-out;
-}
-
-.pulse_tut_s {
-  -webkit-animation: pulse_out_s 1s infinite alternate ease-in-out;
-  animation: pulse_out_s 1s infinite alternate ease-in-out;
 }
 
 .bob {

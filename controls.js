@@ -37,16 +37,23 @@ const StylesC = {
 class Controls extends React.Component {
 	constructor(props) {
 		super(props);
+		this.tut = -1;
+		this.answer = [];
 		this.buttons = {};
 	}
 
 	activateSymbol(symbol) {
-		if(gameRunning)
+		if(gameRunning){
+			if(this.tut < this.answer.length) {
+				this.tut++;
+				this.tutorial();
+			}
 			this.props.callbackRef.symbolPress(symbol);
+		}
 	}
 
 	removeAllSymbols() {
-		resetAnimation(this.clear, 'pulse_tut_s');
+		resetAnimation(this.clear, 'color');
 		if(gameRunning)
 			this.props.callbackRef.removeAllSymbols();
 	}
@@ -56,20 +63,48 @@ class Controls extends React.Component {
 	}
 
 	resetAnimation() {
+		this.tut++;
 		resetAnimation(this.container, 'slide_down_animation');
-		resetAnimation(this.buttons['+'], 'pulse_tut');
-		resetAnimation(this.buttons['-'], 'pulse_tut');
-		resetAnimation(this.buttons['*'], 'pulse_tut');
-		resetAnimation(this.buttons['/'], 'pulse_tut');
-		resetAnimation(this.clear, 'pulse_tut_s');
+		resetAnimation(this.clear, 'unclickable');
+		this.resetTutorial();
+	}
+
+	resetTutorial() {
+		resetAnimation(this.buttons['+'], 'unclickable');
+		resetAnimation(this.buttons['-'], 'unclickable');
+		resetAnimation(this.buttons['*'], 'unclickable');
+		resetAnimation(this.buttons['/'], 'unclickable');
+		resetAnimation(this.buttons['+'], 'color');
+		resetAnimation(this.buttons['-'], 'color');
+		resetAnimation(this.buttons['*'], 'color');
+		resetAnimation(this.buttons['/'], 'color');
+		resetAnimation(this.clear, 'color');
+	}
+
+	tutorial() {
+		if(this.tut >= this.answer.length)
+			return;
+		playAnimation(this.clear, 'unclickable');
+		playAnimation(this.buttons['+'], 'unclickable');
+		playAnimation(this.buttons['-'], 'unclickable');
+		playAnimation(this.buttons['*'], 'unclickable');
+		playAnimation(this.buttons['/'], 'unclickable');
+		resetAnimation(this.buttons['+'], 'color');
+		resetAnimation(this.buttons['-'], 'color');
+		resetAnimation(this.buttons['*'], 'color');
+		resetAnimation(this.buttons['/'], 'color');
+		resetAnimation(this.buttons[this.answer[this.tut]], 'unclickable');
+		playAnimation(this.buttons[this.answer[this.tut]], 'color');
 	}
 
 	setTutorial(answer) {
+		console.log(answer);
 		if(answer == null)
-			playAnimation(this.clear, 'pulse_tut_s');
+			playAnimation(this.clear, 'color');
 		else {
-			for(var i = 0; i < answer.length; i++) 
-				playAnimation(this.buttons[answer[i]], 'pulse_tut');
+			this.answer = answer;
+			this.tut = 0;
+			this.tutorial();
 		}
 	}
 
