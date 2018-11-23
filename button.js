@@ -42,7 +42,7 @@ class Button extends React.Component {
 					height: buttonSize * this.buttonRatio + 'px',
 					WebkitTransition: 'all 0.2s linear',
 					msTransition: 'all 0.2s linear'
-				}} onClick = { () => this.close() } id = 'button' ref = { ref => { this.btn = ref }}> 
+				}} onClick = { () => { this.close(); removeSymbolSound(); }} id = 'button' ref = { ref => { this.btn = ref }}> 
 					<img style = {{ 
 						opacity: this.active ? 1 : 0,
 						width: '60%',

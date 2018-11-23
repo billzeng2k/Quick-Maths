@@ -43,19 +43,19 @@ class MenuButtons extends React.Component {
 	render() {
 		return (
 			<div style = { StylesMB.container }> 
-				<div id = 'button' className = 'menu_button_animation1' style = { StylesMB.menu_button } onClick = { () => this.props.quickMaths.displayLeaderboard() }>
+				<div id = 'button' className = 'menu_button_animation1' style = { StylesMB.menu_button } onClick = { () => { this.props.quickMaths.displayLeaderboard();  menuSound() }}>
 					<div ref = { ref => { this.mb[0] = ref }} >
 						<img style = { StylesMB.menu_icon } src = { trophy } />
 						<div style = { StylesMB.menu_text }> Leaderboards </div>
 					</div>
 				</div>
-				<div id = 'button' className = 'menu_button_animation2' style = { StylesMB.menu_button } onClick = { () => this.props.quickMaths.selectContext(this.props.quickMaths) }>
+				<div id = 'button' className = 'menu_button_animation2' style = { StylesMB.menu_button } onClick = { () => { this.props.quickMaths.selectContext(this.props.quickMaths); menuSound() }}>
 					<div ref = { ref => { this.mb[1] = ref }} >
 						<img style = { StylesMB.menu_icon_big } src = { challenge } />
 						<div style = { StylesMB.menu_text }> Challenge </div>
 					</div>
 				</div>
-				<div id = 'button' className = 'menu_button_animation3' onClick = { () => toggleSound() } style = { StylesMB.menu_button } >
+				<div id = 'button' className = 'menu_button_animation3' onClick = { () => { toggleSound(); menuSound() }} style = { StylesMB.menu_button } >
 					<div ref = { ref => { this.mb[2] = ref }} >
 						<img style = { StylesMB.menu_icon } src = { muted ? mute : sound } />
 						<div style = { StylesMB.menu_text }> { muted ? 'Unmute' : 'Mute' } </div>

@@ -9,6 +9,13 @@ class QuickMaths extends React.Component {
 	}
 
 	selectContext(quickMaths) {
+		if(!init) {
+			init = true;
+			ready.play();
+			set.play();
+			go.play();
+			lose.play();
+		}
 		FBInstant.context
 		  .chooseAsync()
 		  .then(function() {
@@ -33,6 +40,13 @@ class QuickMaths extends React.Component {
 	}
 
 	startGame() {
+		if(!init) {
+			init = true;
+			ready.play();
+			set.play();
+			go.play();
+			lose.play();
+		}
 		if(wait)
 			return;
 		if(this.screen == 'menu')
@@ -135,6 +149,55 @@ function startGame(playerName) {
 	setInterval(function () { ReactDOM.render(<QuickMaths />, domContainer) }, 10);
 }
 
-function updateLeaderboards() {
+function readySound() {
+	if(!muted) {
+		ready.src = 'sounds/ready.mp3';
+		ready.play();
+	}
+}
 
+function setSound() {
+	if(!muted) {
+		set.src = 'sounds/set.mp3';
+		set.play();
+	}
+}
+
+function goSound() {
+	if(!muted) {
+		go.src = 'sounds/go.mp3';
+		go.play();
+	}
+}
+
+function winSound() {
+	if(!muted)
+		new Audio('sounds/win.mp3').play();
+}
+
+function finishSound() {
+	if(!muted) {
+		lose.src = 'sounds/finish.mp3';
+		lose.play();
+	}
+}
+
+function errorSound() {
+	if(!muted)
+		new Audio('sounds/error.mp3').play();
+}
+
+function addSymbolSound() {
+	if(!muted)
+		new Audio('sounds/addSymbol.mp3').play();
+}
+
+function removeSymbolSound() {
+	if(!muted)
+		new Audio('sounds/removeSymbol.mp3').play();
+}
+
+function menuSound() {
+	if(!muted)
+		new Audio('sounds/menu.mp3').play();
 }

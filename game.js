@@ -13,7 +13,7 @@ const opacity0 = 0;
 const opacity1 = 1;
 const opacity2 = 0.05;
 const opacity3 = 0;
-const minR = -9, maxR = 99;
+var minR = -9, maxR = 99;
 var gameRunning = false;
 var homeButton = true;
 var tut = true, tutCnt = 0, tutAns = [];
@@ -41,6 +41,7 @@ class Game extends React.Component {
 	}
 
 	correctAnswer(solution) {
+        winSound();
         this.solvedEq.push({ values: this.eq[this.currentEquation].getValues(), operators: solution, result: this.eq[this.currentEquation].getResult(), time: this.timer.equationSolved(), emoji: winEmojis[Math.floor(Math.random() * winEmojis.length)] });
         if(tut) {
             tut = false;
@@ -89,7 +90,10 @@ class Game extends React.Component {
     }
 
     startGame() {
-        tut = true;    
+        terms = 3;
+        maxR = 99;
+        tut = true;  
+        this.controls.resetAnimation();  
         this.score.resetScore();
         this.timer.resetTime();
         clearTimeout(this.timeout1);
@@ -99,13 +103,14 @@ class Game extends React.Component {
         this.eq[this.currentEquation].setText('READY');
         this.eq[(this.currentEquation + 1) % 3].setText('SET');
         this.eq[(this.currentEquation + 2) % 3].setText('QUICK MATHS!');
-        this.timeout1 = setTimeout(() => this.shiftEquations(false), 750);
-        this.timeout2 = setTimeout(() => this.shiftEquations(true), 1500);
-        this.timeout3 = setTimeout(() => { this.shiftEquations(true); tut = true; tutCnt = 0; tutAns = this.eq[this.currentEquation].getAnswer(); this.controls.setTutorial() }, 2250);
+        this.timeout1 = setTimeout(() => { this.shiftEquations(false); readySound(); } , 750);
+        this.timeout2 = setTimeout(() => { this.shiftEquations(true); setSound(); }, 1500);
+        this.timeout3 = setTimeout(() => { this.shiftEquations(true); goSound(); tut = true; tutCnt = 0; tutAns = this.eq[this.currentEquation].getAnswer(); this.controls.setTutorial() }, 2250);
         this.timeout4 = setTimeout(() => { this.timer.startCountdown(); gameRunning = true }, 2250);
     }
 
     gameFinished(score) {
+        finishSound();
         this.solvedEq.push({ values: this.eq[this.currentEquation].getValues(), operators: convertToImages(this.eq[this.currentEquation].getAnswer()), result: this.eq[this.currentEquation].getResult(), time: 'FAILED', emoji: loseEmojis[Math.floor(Math.random() * loseEmojis.length)] });
         gameRunning = false;
         homeButton = false;

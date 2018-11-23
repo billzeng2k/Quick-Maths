@@ -42,6 +42,12 @@
 			const winEmojis = [grin, love, cool, angel, silly, smile];
 			const loseEmojis = [suprised, angry, poo, dizzy, cry];
 
+			var ready = new Audio();
+			var set = new Audio();
+			var go = new Audio();
+			var lose = new Audio();
+			var init = false;
+
 			window.onload = function() {
 				FBInstant.initializeAsync()
 				  	.then(function() { 
@@ -49,13 +55,6 @@
 
 				    	FBInstant.startGameAsync()
 							.then(function() {
-							    var contextId = FBInstant.context.getID();
-							    var contextType = FBInstant.context.getType();
-
-							    var playerName = FBInstant.player.getName();
-							    var playerPic = FBInstant.player.getPhoto();
-							    var playerId = FBInstant.player.getID();
-
 							    startGame();
 						  	});
 				  	});

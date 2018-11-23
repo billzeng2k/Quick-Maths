@@ -111,7 +111,7 @@ class Controls extends React.Component {
 						<img style = { StylesC.symbolImg } src = { divide } />
 					</div>
 				</div>
-				<div id = 'button' style = { StylesC.clear } onClick = { () => this.removeAllSymbols() } ref = { ref => { this.clear = ref }}> CLEAR </div>
+				<div id = 'button' style = { StylesC.clear } onClick = { () => { this.removeAllSymbols(); removeSymbolSound(); }} ref = { ref => { this.clear = ref }}> CLEAR </div>
 			</div>
 		);
 	}

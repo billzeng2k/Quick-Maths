@@ -2,7 +2,7 @@ const borderSize = calcWidth(50/98, 0);
 const buttonSize = calcWidth(11, -borderSize);
 const height = calcWidth(2500/98, 0);
 const fontSize = calcWidth(2575/98, 0);
-const numberRatios = [34.699, 17.957, 32.499, 33.4, 34.099, 33.199, 34.399, 28.6, 33.699, 34.399, 35.906];
+const numberRatios = [34.699, 17.957, 32.499, 33.4, 34.099, 33.199, 34.399, 28.6, 33.699, 34.399, 32.97];
 const letterRatios = [31.969, 33.98, 33.792, 35.18, 29.48, 28.78, 34.392, 35.98, 15.18, 32.946, 32.98, 28.28, 48.18, 37.48, 34.892, 32.78, 34.892, 34.38, 32.717, 27.755, 35.585, 31.969, 48.176, 32.167, 30.683, 29.757];
 const miscRatios = {
 	space: 13.162,
@@ -116,12 +116,12 @@ class Equation extends React.Component {
 		}
 		if(result < 0)
 			this.equationWidth += fontSize * numberRatios[10] * ratio;
-		this.equationWidth += borderSize * terms + buttonSize * terms;
+		this.equationWidth += borderSize * this.values.length + buttonSize * this.values.length;
 	}
 
 	activate(symbol) {
 		var operators = [];
-		for(var i = 0; i < terms - 1; i++) {
+		for(var i = 0; i < this.values.length - 1; i++) {
 			if(!this.active[i]) {
 				this.btn[i].open(symbol);
 				this.active[i] = true;
@@ -129,9 +129,11 @@ class Equation extends React.Component {
 				break;
 			}
 		}
-		for(var i = 0; i < terms - 1; i++) {
-			if(!this.active[i])
+		for(var i = 0; i < this.values.length - 1; i++) {
+			if(!this.active[i]) {
+				addSymbolSound();
 				return;
+			}
 			switch(this.symbol[i]) {
 				case plus:
 					operators[i] = '+';
@@ -149,8 +151,10 @@ class Equation extends React.Component {
 		}
 		if(solveEquation(this.values.slice(0), operators) == this.result)
 			this.props.game.correctAnswer(this.symbol);
-		else 
+		else {
+			errorSound();
 			this.shake();
+		}
 	}
 
 	disable(button) {
@@ -162,7 +166,7 @@ class Equation extends React.Component {
 	}
 
 	removeAllSymbols() {
-		for(var i = 0; i < terms - 1; i++) {
+		for(var i = 0; i < this.values.length - 1; i++) {
 			this.active[i] = false;
 			this.btn[i].close();
 		}
@@ -186,8 +190,8 @@ class Equation extends React.Component {
 						<Term value = { this.mounted ? this.values[1] : 1 } />
 						<Button ref = { ref => { this.btn[1] = ref }} disabled = { () => this.disable(1) } />
 						<Term value = { this.mounted ? this.values[2] : 1 } />
-						{ terms == 4 ? <Button ref = { ref => { this.btn[2] = ref }} disabled = { () => this.disable(2) } /> : null }
-						{ terms == 4 ? <Term value = { this.mounted ?  this.values[3]: 1 } /> : null }
+						{ this.values.length == 4 ? <Button ref = { ref => { this.btn[2] = ref }} disabled = { () => this.disable(2) } /> : null }
+						{ this.values.length == 4 ? <Term value = { this.mounted ?  this.values[3]: 1 } /> : null }
 						<img style = { StylesE.equals } src = { equal } />
 						<Term value = { this.mounted ? this.result : 1 } />
 					</div> :

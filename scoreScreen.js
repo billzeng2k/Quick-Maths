@@ -95,7 +95,7 @@ class ScoreScreen extends React.Component {
 	render() {
 		return (
 			<div style = { StylesSS.container }>
-				<img id = 'button' className = 'tease_animation' src = { book } style = { StylesSS.book } onClick = { () => this.toggleHistory() } ref = { ref => { this.book = ref }}/>
+				<img id = 'button' className = 'tease_animation' src = { book } style = { StylesSS.book } onClick = { () => { this.toggleHistory(); menuSound(); }} ref = { ref => { this.book = ref }}/>
 				<div className = 'slide_down_pop_animation' style = {{ marginTop: calcHeight(2, 0) + 'px' }} ref = { ref => { this.scoreContainer = ref }}>
 					<img className = 'bob' style = { this.newBest ? { width: calcWidth(20, 0) + 'px' } : { display: 'none' }} src = { crown } />
 					<div style = { StylesSS.score }> { this.score } </div>
@@ -122,7 +122,7 @@ class ScoreScreen extends React.Component {
 					textAlign: 'center',
 					fontSize: fontSizeSS + 'px',
 					marginTop: this.newBest ? calcHeight(50, -fontSize * 1.5 - calcWidth(40 / 1.5, 0)) : calcHeight(50, -fontSize * 2.25)
-				}} onClick = { () => { this.props.quickMaths.startGame() }}> <div ref = { ref => { this.text = ref }}> Play Again </div> </div>
+				}} onClick = { () => { this.props.quickMaths.startGame(); menuSound() }}> <div ref = { ref => { this.text = ref }}> Play Again </div> </div>
 				<ScoreScreenButtons quickMaths = { this.props.quickMaths } ref = { ref => { this.buttons = ref }} />
 				<div ref = { ref => { this.historyContainer = ref }} style = { this.history ? 
 				{ 

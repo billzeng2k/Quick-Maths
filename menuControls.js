@@ -57,13 +57,13 @@ class MenuControls extends React.Component {
 	render() {
 		return (
 			<div className = 'slide_right' style = {{ position: 'absolute' }} ref = { ref => { this.container = ref }} >
-				<div id = 'button' style = { StylesP.buttonMiddle } onClick = { () => this.homeButton() }>
+				<div id = 'button' style = { StylesP.buttonMiddle } onClick = { () => { this.homeButton(); menuSound() }}>
 					<img style = { StylesP.image } src = { home } />
 				</div>
-				<div id = 'button' style = { StylesP.buttonRight } onClick = { () => this.resetGame() }>
+				<div id = 'button' style = { StylesP.buttonRight } onClick = { () => { this.resetGame(); menuSound() }}>
 					<img style = { StylesP.image } src = { restart } />
 				</div>
-				<div id = 'button' style = { StylesP.buttonBottom } onClick = { () => toggleSound() }>
+				<div id = 'button' style = { StylesP.buttonBottom } onClick = { () => { toggleSound(); menuSound() }}>
 					<img style = { StylesP.image } src = { muted ? mute : sound } />
 				</div>	
 			</div>
