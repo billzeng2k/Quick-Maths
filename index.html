@@ -42,11 +42,35 @@
 			const winEmojis = [grin, love, cool, angel, silly, smile];
 			const loseEmojis = [suprised, angry, poo, dizzy, cry];
 
-			var ready = new Audio();
-			var set = new Audio();
-			var go = new Audio();
-			var lose = new Audio();
-			var init = false;
+			const AudioContext = window.AudioContext || window.webkitAudioContext;
+			const audioCtx = new AudioContext();
+
+			const menuSoundSrc = new Audio('sounds/menu.mp3');
+			audioCtx.createMediaElementSource(menuSoundSrc).connect(audioCtx.destination);
+
+			const removeSymbolSrc = new Audio('sounds/removeSymbol.mp3');
+			audioCtx.createMediaElementSource(removeSymbolSrc).connect(audioCtx.destination);
+
+			const addSymbolSrc = new Audio('sounds/addSymbol.mp3');
+			audioCtx.createMediaElementSource(addSymbolSrc).connect(audioCtx.destination);
+
+			const errorSrc = new Audio('sounds/error.mp3');
+			audioCtx.createMediaElementSource(errorSrc).connect(audioCtx.destination);
+
+			const readySrc = new Audio('sounds/ready.mp3');
+			audioCtx.createMediaElementSource(readySrc).connect(audioCtx.destination);
+
+			const setSrc = new Audio('sounds/set.mp3');
+			audioCtx.createMediaElementSource(setSrc).connect(audioCtx.destination);
+
+			const goSrc = new Audio('sounds/go.mp3');
+			audioCtx.createMediaElementSource(goSrc).connect(audioCtx.destination);
+
+			const winSrc = new Audio('sounds/win.mp3');
+			audioCtx.createMediaElementSource(winSrc).connect(audioCtx.destination);
+
+			const finishSrc = new Audio('sounds/finish.mp3');
+			audioCtx.createMediaElementSource(finishSrc).connect(audioCtx.destination);
 
 			window.onload = function() {
 				FBInstant.initializeAsync()
@@ -70,6 +94,7 @@
 		</script>
 	</head>
 	<body style = "margin: 0px; font-family: Dense" width = "100%" height = "100%">
+		<audio src="sounds/menu.mp3" type="audio/mpeg"></audio>
 		<div class = "game_container" width = "100%" height = "100%"></div>
 		<script src="build/react.js"></script>
     	<script src="build/react-dom.js"></script>

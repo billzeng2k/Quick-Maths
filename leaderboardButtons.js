@@ -17,13 +17,6 @@ class LeaderboardButtons extends React.Component {
 	}
 
 	playGame() {
-		if(!init) {
-			init = true;
-			ready.play();
-			set.play();
-			go.play();
-			lose.play();
-		}
 		if(FBInstant.context.getID() == null)
 			this.props.quickMaths.selectContext(this.props.quickMaths);
 		else 

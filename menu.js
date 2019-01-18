@@ -1,4 +1,4 @@
-const fontSize = calcWidth(2500/98, 0);
+const fontSize = calcWidth(2500 / 98, 0);
 
 const StylesM = {
 	title: {
@@ -18,17 +18,7 @@ class Menu extends React.Component {
 	}
 
 	playGame() {
-		if(!init) {
-			init = true;
-			ready.play();
-			set.play();
-			go.play();
-			lose.play();
-		}
-		if(FBInstant.context.getID() == null)
-			this.props.quickMaths.selectContext(this.props.quickMaths);
-		else 
-			this.props.quickMaths.startGame();
+		this.props.quickMaths.startGame();
 	}
 
 	transitionOut() {
@@ -43,12 +33,12 @@ class Menu extends React.Component {
 		resetAnimation(this.title, 'slide_up_out_animation');
 	}
 
-	render () {
+	render() {
 		return (
 			<div>
-				<div className = 'slide_down_pop_animation' style = { StylesM.title } ref = { ref => { this.title = ref }} > Quick Maths </div>
-				<div className = 'pulse' onClick = { () => { this.playGame(); menuSound() }} style = { StylesM.text } > <div ref = { ref => { this.text = ref }}> Start Game </div> </div>
-				<MenuButtons quickMaths = { this.props.quickMaths } ref = { ref => { this.menuButtons = ref }} />
+				<div className='slide_down_pop_animation' style={StylesM.title} ref={ref => { this.title = ref }} > Quick Maths </div>
+				<div className='pulse' onClick={() => { this.playGame(); menuSound() }} style={StylesM.text} > <div ref={ref => { this.text = ref }}> Start Game </div> </div>
+				<MenuButtons quickMaths={this.props.quickMaths} ref={ref => { this.menuButtons = ref }} />
 			</div>
 		);
 	}
