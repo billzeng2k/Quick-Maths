@@ -136,37 +136,100 @@ function startGame(playerName) {
 }
 
 function readySound() {
-	if(!muted) readySrc.play();
+	if(!muted) {
+		const AudioContext = window.AudioContext || window.webkitAudioContext;
+		const audioCtx = new AudioContext();
+
+		const readySrc = new Audio('sounds/ready.mp3');
+		(audioCtx.createMediaElementSource(readySrc)).connect(audioCtx.destination);
+		readySrc.play();
+	}
 }
 
 function setSound() {
-	if(!muted) setSrc.play();
+	if(!muted) {
+		const AudioContext = window.AudioContext || window.webkitAudioContext;
+		const audioCtx = new AudioContext();
+
+		const setSrc = new Audio('sounds/set.mp3');
+		(audioCtx.createMediaElementSource(setSrc)).connect(audioCtx.destination);
+		setSrc.play();
+	}
 }
 
 function goSound() {
-	if(!muted) goSrc.play();
+	if(!muted) {
+		const AudioContext = window.AudioContext || window.webkitAudioContext;
+		const audioCtx = new AudioContext();
+
+		const goSrc = new Audio('sounds/go.mp3');
+		(audioCtx.createMediaElementSource(goSrc)).connect(audioCtx.destination);
+		goSrc.play();
+	}
 }
 
 function winSound() {
-	if(!muted) winSrc.play();
+	if(!muted) {
+		const AudioContext = window.AudioContext || window.webkitAudioContext;
+		const audioCtx = new AudioContext();
+
+		const winSrc = new Audio('sounds/win.mp3');
+		(audioCtx.createMediaElementSource(winSrc)).connect(audioCtx.destination);
+		winSrc.play();
+	}
 }
 
 function finishSound() {
-	if(!muted) finishSrc.play();
+	if(!muted) {
+		const AudioContext = window.AudioContext || window.webkitAudioContext;
+		const audioCtx = new AudioContext();
+
+		const finishSrc = new Audio('sounds/finish.mp3');
+		(audioCtx.createMediaElementSource(finishSrc)).connect(audioCtx.destination);
+		finishSrc.play();
+	}
 }
 
 function errorSound() {
-	if(!muted) errorSrc.play();
+	if(!muted) {
+		const AudioContext = window.AudioContext || window.webkitAudioContext;
+		const audioCtx = new AudioContext();
+
+		const errorSrc = new Audio('sounds/error.mp3');
+		(audioCtx.createMediaElementSource(errorSrc)).connect(audioCtx.destination);
+		errorSrc.play();
+	}
 }
 
 function addSymbolSound() {
-	if(!muted) addSymbolSrc.play();
+	if(!muted) {
+		const AudioContext = window.AudioContext || window.webkitAudioContext;
+		const audioCtx = new AudioContext();
+		
+		const addSymbolSrc = new Audio('sounds/addSymbol.mp3');
+		(audioCtx.createMediaElementSource(addSymbolSrc)).connect(audioCtx.destination);
+		addSymbolSrc.play();
+	}
 }
 
 function removeSymbolSound() {
-	if(!muted) removeSymbolSrc.play();
+	if(!muted) {
+		const AudioContext = window.AudioContext || window.webkitAudioContext;
+		const audioCtx = new AudioContext();
+
+		const removeSymbolSrc = new Audio('sounds/removeSymbol.mp3');
+		(audioCtx.createMediaElementSource(removeSymbolSrc)).connect(audioCtx.destination);
+		removeSymbolSrc.play();
+	}
 }
 
 function menuSound() {
-	if(!muted) menuSoundSrc.play();
+	if(!muted) {
+		const AudioContext = window.AudioContext || window.webkitAudioContext;
+		const audioCtx = new AudioContext();
+
+		const menuSoundSrc = new Audio('sounds/menu.mp3');
+		(audioCtx.createMediaElementSource(menuSoundSrc)).connect(audioCtx.destination);
+		menuSoundSrc.play();
+	}
 }
