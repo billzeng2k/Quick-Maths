@@ -42,6 +42,9 @@
 			const winEmojis = [grin, love, cool, angel, silly, smile];
 			const loseEmojis = [suprised, angry, poo, dizzy, cry];
 
+			const AudioContext = window.AudioContext || window.webkitAudioContext;
+			const audioCtx = new AudioContext();
+
 			window.onload = function() {
 				FBInstant.initializeAsync()
 				  	.then(function() { 

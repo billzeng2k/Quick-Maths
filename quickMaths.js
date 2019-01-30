@@ -1,5 +1,6 @@
 var muted = false;
 var wait = false;
+var menuSoundSrcConnected = false;
 var highScore = 0;
 
 class QuickMaths extends React.Component {
@@ -136,10 +137,7 @@ function startGame(playerName) {
 }
 
 function readySound() {
-	if(!muted) {
-		const AudioContext = window.AudioContext || window.webkitAudioContext;
-		const audioCtx = new AudioContext();
-
+	if(!muted && FBInstant.getPlatform() != 'IOS') {
 		const readySrc = new Audio('sounds/ready.mp3');
 		(audioCtx.createMediaElementSource(readySrc)).connect(audioCtx.destination);
 		readySrc.play();
@@ -147,10 +145,7 @@ function readySound() {
 }
 
 function setSound() {
-	if(!muted) {
-		const AudioContext = window.AudioContext || window.webkitAudioContext;
-		const audioCtx = new AudioContext();
-
+	if(!muted && FBInstant.getPlatform() != 'IOS') {
 		const setSrc = new Audio('sounds/set.mp3');
 		(audioCtx.createMediaElementSource(setSrc)).connect(audioCtx.destination);
 		setSrc.play();
@@ -158,10 +153,7 @@ function setSound() {
 }
 
 function goSound() {
-	if(!muted) {
-		const AudioContext = window.AudioContext || window.webkitAudioContext;
-		const audioCtx = new AudioContext();
-
+	if(!muted && FBInstant.getPlatform() != 'IOS') {
 		const goSrc = new Audio('sounds/go.mp3');
 		(audioCtx.createMediaElementSource(goSrc)).connect(audioCtx.destination);
 		goSrc.play();
@@ -169,10 +161,7 @@ function goSound() {
 }
 
 function winSound() {
-	if(!muted) {
-		const AudioContext = window.AudioContext || window.webkitAudioContext;
-		const audioCtx = new AudioContext();
-
+	if(!muted && FBInstant.getPlatform() != 'IOS') {
 		const winSrc = new Audio('sounds/win.mp3');
 		(audioCtx.createMediaElementSource(winSrc)).connect(audioCtx.destination);
 		winSrc.play();
@@ -180,10 +169,7 @@ function winSound() {
 }
 
 function finishSound() {
-	if(!muted) {
-		const AudioContext = window.AudioContext || window.webkitAudioContext;
-		const audioCtx = new AudioContext();
-
+	if(!muted && FBInstant.getPlatform() != 'IOS') {
 		const finishSrc = new Audio('sounds/finish.mp3');
 		(audioCtx.createMediaElementSource(finishSrc)).connect(audioCtx.destination);
 		finishSrc.play();
@@ -191,10 +177,7 @@ function finishSound() {
 }
 
 function errorSound() {
-	if(!muted) {
-		const AudioContext = window.AudioContext || window.webkitAudioContext;
-		const audioCtx = new AudioContext();
-
+	if(!muted && FBInstant.getPlatform() != 'IOS') {
 		const errorSrc = new Audio('sounds/error.mp3');
 		(audioCtx.createMediaElementSource(errorSrc)).connect(audioCtx.destination);
 		errorSrc.play();
@@ -202,10 +185,7 @@ function errorSound() {
 }
 
 function addSymbolSound() {
-	if(!muted) {
-		const AudioContext = window.AudioContext || window.webkitAudioContext;
-		const audioCtx = new AudioContext();
-		
+	if(!muted && FBInstant.getPlatform() != 'IOS') {
 		const addSymbolSrc = new Audio('sounds/addSymbol.mp3');
 		(audioCtx.createMediaElementSource(addSymbolSrc)).connect(audioCtx.destination);
 		addSymbolSrc.play();
@@ -213,10 +193,7 @@ function addSymbolSound() {
 }
 
 function removeSymbolSound() {
-	if(!muted) {
-		const AudioContext = window.AudioContext || window.webkitAudioContext;
-		const audioCtx = new AudioContext();
-
+	if(!muted && FBInstant.getPlatform() != 'IOS') {
 		const removeSymbolSrc = new Audio('sounds/removeSymbol.mp3');
 		(audioCtx.createMediaElementSource(removeSymbolSrc)).connect(audioCtx.destination);
 		removeSymbolSrc.play();
@@ -225,11 +202,11 @@ function removeSymbolSound() {
 
 function menuSound() {
 	if(!muted) {
-		const AudioContext = window.AudioContext || window.webkitAudioContext;
-		const audioCtx = new AudioContext();
-
-		const menuSoundSrc = new Audio('sounds/menu.mp3');
-		(audioCtx.createMediaElementSource(menuSoundSrc)).connect(audioCtx.destination);
+		const menuSoundSrc = document.querySelector('audio');
+		if (!menuSoundSrcConnected) {
+			(audioCtx.createMediaElementSource(menuSoundSrc)).connect(audioCtx.destination);
+			menuSoundSrcConnected = true;
+		}
 		menuSoundSrc.play();
 	}
 }
