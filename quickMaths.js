@@ -153,11 +153,8 @@ function playSound(filePath) {
 				source.connect(audioCtx.destination);
 				source.start(0);
 			},
-
 				function (e) { console.log("Error with decoding audio data" + e.err); });
-
 		}
-
 		request.send();
 	}
 }
