@@ -11,36 +11,36 @@ class QuickMaths extends React.Component {
 
 	selectContext(quickMaths) {
 		FBInstant.context
-		  .chooseAsync()
-		  .then(function() {
-		    FBInstant
-			  .getLeaderboardAsync('BaseGame.' + FBInstant.context.getID())
-			  .then(leaderboard => { return leaderboard.setScoreAsync(0); })
-			  .then(() => {
-			  	FBInstant
-				  .getLeaderboardAsync('BaseGame.' + FBInstant.context.getID())
-				  .then(leaderboard => leaderboard.getPlayerEntryAsync())
-				  .then(entry => {
-				    highScore = entry.getScore();
-				  }).catch(error => {
-				  	console.error(error);
-				  	highScore = 0;
-				  });
-			  	quickMaths.startGame()
-			  })
-			  .catch(error => console.error(error));
-		  })
-		  .catch(error => console.error(error));
+			.chooseAsync()
+			.then(function () {
+				FBInstant
+					.getLeaderboardAsync('BaseGame.' + FBInstant.context.getID())
+					.then(leaderboard => { return leaderboard.setScoreAsync(0); })
+					.then(() => {
+						FBInstant
+							.getLeaderboardAsync('BaseGame.' + FBInstant.context.getID())
+							.then(leaderboard => leaderboard.getPlayerEntryAsync())
+							.then(entry => {
+								highScore = entry.getScore();
+							}).catch(error => {
+								console.error(error);
+								highScore = 0;
+							});
+						quickMaths.startGame()
+					})
+					.catch(error => console.error(error));
+			})
+			.catch(error => console.error(error));
 	}
 
 	startGame() {
-		if(wait)
+		if (wait)
 			return;
-		if(this.screen == 'menu')
+		if (this.screen == 'menu')
 			this.menu.transitionOut();
-		else if(this.screen == 'score')
+		else if (this.screen == 'score')
 			this.score.transitionOut();
-		else if(this.screen == 'leaderboard')
+		else if (this.screen == 'leaderboard')
 			this.leaderboard.transitionOut();
 		wait = true;
 		homeButton = true;
@@ -53,14 +53,14 @@ class QuickMaths extends React.Component {
 	}
 
 	goHome() {
-		if(wait)
+		if (wait)
 			return;
 		wait = true;
-		if(this.screen == 'game')
+		if (this.screen == 'game')
 			this.game.leaveGame();
-		else if(this.screen == 'score')
+		else if (this.screen == 'score')
 			this.score.transitionOut();
-		else if(this.screen == 'leaderboard')
+		else if (this.screen == 'leaderboard')
 			this.leaderboard.transitionOut();
 		setTimeout(() => {
 			this.screen = 'menu';
@@ -70,10 +70,10 @@ class QuickMaths extends React.Component {
 	}
 
 	scoreScreen(score, solvedEq) {
-		if(wait)
+		if (wait)
 			return;
 		wait = true;
-		if(this.screen == 'game')
+		if (this.screen == 'game')
 			setTimeout(() => {
 				this.game.leaveGame();
 			}, 1000);
@@ -85,11 +85,11 @@ class QuickMaths extends React.Component {
 	}
 
 	displayLeaderboard() {
-		if(wait)
+		if (wait)
 			return;
-		if(this.screen == 'menu')
+		if (this.screen == 'menu')
 			this.menu.transitionOut();
-		else if(this.screen == 'score')
+		else if (this.screen == 'score')
 			this.score.transitionOut();
 		wait = true;
 		setTimeout(() => {
@@ -99,34 +99,34 @@ class QuickMaths extends React.Component {
 		}, 700);
 	}
 
-	render () {
+	render() {
 		return (
 			<div>
-				<div style = {
+				<div style={
 					this.screen != 'menu' ? { display: 'none' } : { display: 'initial' }
-				}> 
-					<Menu quickMaths = { this } ref = { ref => { this.menu = ref }} />
+				}>
+					<Menu quickMaths={this} ref={ref => { this.menu = ref }} />
 				</div>
-				<div style = {
+				<div style={
 					this.screen != 'score' ? { display: 'none' } : { display: 'initial' }
 				}>
-					<ScoreScreen quickMaths = { this } ref = { ref => { this.score = ref }} />
+					<ScoreScreen quickMaths={this} ref={ref => { this.score = ref }} />
 				</div>
-				<div style = {
+				<div style={
 					this.screen != 'leaderboard' ? { display: 'none' } : { display: 'initial' }
 				}>
-					<Leaderboard quickMaths = { this } ref = { ref => { this.leaderboard = ref }} />
+					<Leaderboard quickMaths={this} ref={ref => { this.leaderboard = ref }} />
 				</div>
-				<div style = {
+				<div style={
 					this.screen != 'game' ? { display: 'none' } : { display: 'initial' }
 				}>
-					<Game quickMaths = { this } ref = { ref => { this.game = ref }} />
+					<Game quickMaths={this} ref={ref => { this.game = ref }} />
 				</div>
 			</div>
 		);
 	}
 }
-//
+
 function toggleSound() {
 	muted = !muted;
 }
@@ -136,77 +136,64 @@ function startGame(playerName) {
 	setInterval(function () { ReactDOM.render(<QuickMaths />, domContainer) }, 10);
 }
 
-function readySound() {
-	if(!muted && FBInstant.getPlatform() != 'IOS') {
-		const readySrc = new Audio('sounds/ready.mp3');
-		(audioCtx.createMediaElementSource(readySrc)).connect(audioCtx.destination);
-		readySrc.play();
+function playSound(filePath) {
+	if (!muted) {
+		var source = audioCtx.createBufferSource();
+		var request = new XMLHttpRequest();
+		request.open('GET', filePath, true);
+
+		request.responseType = 'arraybuffer';
+
+		request.onload = function () {
+			var audioData = request.response;
+
+			audioCtx.decodeAudioData(audioData, function (buffer) {
+				source.buffer = buffer;
+
+				source.connect(audioCtx.destination);
+				source.start(0);
+			},
+
+				function (e) { console.log("Error with decoding audio data" + e.err); });
+
+		}
+
+		request.send();
 	}
+}
+
+function readySound() {
+	playSound('sounds/ready.mp3');
 }
 
 function setSound() {
-	if(!muted && FBInstant.getPlatform() != 'IOS') {
-		const setSrc = new Audio('sounds/set.mp3');
-		(audioCtx.createMediaElementSource(setSrc)).connect(audioCtx.destination);
-		setSrc.play();
-	}
+	playSound('sounds/set.mp3');
 }
 
 function goSound() {
-	if(!muted && FBInstant.getPlatform() != 'IOS') {
-		const goSrc = new Audio('sounds/go.mp3');
-		(audioCtx.createMediaElementSource(goSrc)).connect(audioCtx.destination);
-		goSrc.play();
-	}
+	playSound('sounds/go.mp3');
 }
 
 function winSound() {
-	if(!muted && FBInstant.getPlatform() != 'IOS') {
-		const winSrc = new Audio('sounds/win.mp3');
-		(audioCtx.createMediaElementSource(winSrc)).connect(audioCtx.destination);
-		winSrc.play();
-	}
+	playSound('sounds/win.mp3');
 }
 
 function finishSound() {
-	if(!muted && FBInstant.getPlatform() != 'IOS') {
-		const finishSrc = new Audio('sounds/finish.mp3');
-		(audioCtx.createMediaElementSource(finishSrc)).connect(audioCtx.destination);
-		finishSrc.play();
-	}
+	playSound('sounds/finish.mp3');
 }
 
 function errorSound() {
-	if(!muted && FBInstant.getPlatform() != 'IOS') {
-		const errorSrc = new Audio('sounds/error.mp3');
-		(audioCtx.createMediaElementSource(errorSrc)).connect(audioCtx.destination);
-		errorSrc.play();
-	}
+	playSound('sounds/error.mp3');
 }
 
 function addSymbolSound() {
-	if(!muted && FBInstant.getPlatform() != 'IOS') {
-		const addSymbolSrc = new Audio('sounds/addSymbol.mp3');
-		(audioCtx.createMediaElementSource(addSymbolSrc)).connect(audioCtx.destination);
-		addSymbolSrc.play();
-	}
+	playSound('sounds/addSymbol.mp3');
 }
 
 function removeSymbolSound() {
-	if(!muted && FBInstant.getPlatform() != 'IOS') {
-		const removeSymbolSrc = new Audio('sounds/removeSymbol.mp3');
-		(audioCtx.createMediaElementSource(removeSymbolSrc)).connect(audioCtx.destination);
-		removeSymbolSrc.play();
-	}
+	playSound('sounds/removeSymbol.mp3');
 }
 
 function menuSound() {
-	if(!muted) {
-		const menuSoundSrc = document.querySelector('audio');
-		if (!menuSoundSrcConnected) {
-			(audioCtx.createMediaElementSource(menuSoundSrc)).connect(audioCtx.destination);
-			menuSoundSrcConnected = true;
-		}
-		menuSoundSrc.play();
-	}
+	playSound('sounds/menu.mp3');
 }
