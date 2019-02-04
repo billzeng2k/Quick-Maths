@@ -1,3 +1,22 @@
+## QUICK MATHS
+
+### To Setup
+
+Run 'npm install' to get packages
+
+### To Develop
+
+TODO
+
+### To Deploy
+
+Run 'npm run build'
+Move fbapp-config.json to the build folder
+Run 'zip -r quickMaths.zip .'
+Upload the zip to the FB developer console
+
+******************************************************
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -160,12 +160,12 @@ self.__precacheManifest = [
     "url": "/static/media/win.928342dc.mp3"
   },
   {
-    "revision": "6c9dd228b20985da43c876522b40eb13",
-    "url": "/static/media/Dense.6c9dd228.otf"
-  },
-  {
     "revision": "41911386ad24c915626afa086c512733",
     "url": "/static/media/Bariol.41911386.otf"
+  },
+  {
+    "revision": "6c9dd228b20985da43c876522b40eb13",
+    "url": "/static/media/Dense.6c9dd228.otf"
   },
   {
     "revision": "0d2162c75e058e1b37f0f12fa62d0795",
