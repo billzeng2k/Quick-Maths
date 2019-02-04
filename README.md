@@ -10,9 +10,8 @@ TODO
 
 ### To Deploy
 
-Run 'npm run build'
-Move fbapp-config.json to the build folder
-Run 'zip -r quickMaths.zip .'
+Run './get_package.sh' (you might need to give the script extra permissions via 'chmod 755 get_pacakge.sh)
+
 Upload the zip to the FB developer console
 
 ******************************************************
