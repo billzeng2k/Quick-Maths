@@ -3,6 +3,7 @@ import { playAnimation, resetAnimation } from './animation.js';
 import { playSound, menu, toggleSound, muted } from './sounds';
 import { calcWidth, setContext } from './logic.js';
 import { trophy, home, challenge, sound, mute } from './images';
+import { alt } from './game_config';
 
 const fontSize = calcWidth(1000 / 98, 0);
 
@@ -88,7 +89,7 @@ class Button extends Component {
     clickAction() {
         if(this.props.buttonType === 'challenge')
             setContext(this.props.changeScreen);
-        else if(this.props.buttonType == 'sound') {
+        else if(this.props.buttonType === 'sound') {
             toggleSound();
             this.forceUpdate()
         }
@@ -97,14 +98,14 @@ class Button extends Component {
     }
 
     renderImage() {
-        if(this.props.buttonType == 'sound') 
+        if(this.props.buttonType === 'sound') 
             return muted ? mute : sound;
         else 
             return ButtonTypes[this.props.buttonType].image;
     }
 
     renderText() {
-        if(this.props.buttonType == 'sound') 
+        if(this.props.buttonType === 'sound') 
             return muted ? 'Unmute' : 'Mute';
         else   
             return ButtonTypes[this.props.buttonType].text;
@@ -114,7 +115,7 @@ class Button extends Component {
         return (
             <div id='button' className={'menu_button_animation' + this.props.buttonNumber} style={Styles.menu_button} onClick={() => { this.clickAction(); playSound(menu) }}>
                 <div ref={ref => { this.button = ref }} >
-                    <img style={this.props.buttonType === 'challenge' ? Styles.menu_icon_big : Styles.menu_icon} src={this.renderImage()} alt = 'Gah it broke :('/>
+                    <img style={this.props.buttonType === 'challenge' ? Styles.menu_icon_big : Styles.menu_icon} src={this.renderImage()} alt = { alt }/>
                     <div style={Styles.menu_text}> {this.renderText()} </div>
                 </div>
             </div>

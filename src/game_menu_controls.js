@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { calcWidth } from './logic.js';
 import { playSound, toggleSound, menu, muted } from './sounds';
-import { setGameRunning } from './game_config.js';
+import { setGameRunning, alt } from './game_config.js';
 import { playAnimation, resetAnimation } from './animation.js';
 import { home, restart, mute, sound } from './images'; 
 const borderSize = calcWidth(50/98, 0);
@@ -37,10 +37,6 @@ const Styles = {
 }
 
 export default class GameMenuControls extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	resetGame() {
 		this.props.game.resetGame();
 	}
@@ -62,13 +58,13 @@ export default class GameMenuControls extends Component {
 		return (
 			<div className = 'slide_right' style = {{ position: 'absolute' }} ref = { ref => { this.container = ref }} >
 				<div id = 'button' style = { Styles.buttonMiddle } onClick = { () => { this.homeButton(); playSound(menu) }}>
-					<img style = { Styles.image } src = { home } />
+					<img style = { Styles.image } src = { home } alt = { alt }/>
 				</div>
 				<div id = 'button' style = { Styles.buttonRight } onClick = { () => { this.resetGame(); playSound(menu) }}>
-					<img style = { Styles.image } src = { restart } />
+					<img style = { Styles.image } src = { restart } alt = { alt }/>
 				</div>
 				<div id = 'button' style = { Styles.buttonBottom } onClick = { () => { toggleSound(); playSound(menu); this.forceUpdate() }}>
-					<img style = { Styles.image } src = { muted ? mute : sound } />
+					<img style = { Styles.image } src = { muted ? mute : sound } alt = { alt }/>
 				</div>	
 			</div>
 		);

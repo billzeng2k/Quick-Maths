@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { calcWidth } from './logic.js';
 import { playAnimation, resetAnimation } from './animation.js';
-import { winEmojis } from './game_config.js';
+import { winEmojis, alt } from './game_config.js';
 import { grin } from './images';
 
 const fontSize = calcWidth(1750/98, 0);
@@ -63,7 +63,7 @@ export default class Score extends Component {
 	render () {
 		return (
 			<div className = 'slide_left' style = { Styles.container } ref = { ref => { this.container = ref }} >
-				<img ref = { ref => { this.emojiContainer = ref }} style = { Styles.emoji } src = { this.emoji } />
+				<img ref = { ref => { this.emojiContainer = ref }} style = { Styles.emoji } src = { this.emoji } alt = { alt }/>
 				{ this.state.mounted ? this.state.score : 0 }
 			</div>
 		);

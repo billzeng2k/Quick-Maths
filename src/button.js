@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { calcWidth } from './logic.js';
-import { tut } from './game_config';
+import { tut, alt } from './game_config';
 import { playSound, remove_symbol } from './sounds';
 import { plus } from './images';
 
@@ -50,7 +50,7 @@ export default class Button extends Component {
 						width: '60%',
 						marginTop: '20%',
 						marginLeft: '20%'
-		 			}} src = { this.state.active ? this.state.symbol : plus }/>
+		 			}} src = { this.state.active ? this.state.symbol : plus } alt = { alt }/>
 				</div>
 			</div>
 		);

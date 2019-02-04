@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { calcWidth, generateAnswer, solveEquation, terms } from './logic.js';
 import { playAnimation, resetAnimation } from './animation.js';
-import { tut, tutCnt, setTutCnt } from './game_config.js';
+import { tut, tutCnt, setTutCnt, alt } from './game_config.js';
 import { plus, minus, multiply, divide, equal } from './images';
 import { playSound, add_symbol, error } from './sounds';
 import Term from './term.js';
@@ -9,7 +9,6 @@ import Button from './button.js';
 
 const borderSize = calcWidth(50/98, 0);
 const buttonSize = calcWidth(11, -borderSize);
-const height = calcWidth(2500/98, 0);
 const fontSize = calcWidth(2575/98, 0);
 const numberRatios = [34.699, 17.957, 32.499, 33.4, 34.099, 33.199, 34.399, 28.6, 33.699, 34.399, 32.97];
 const letterRatios = [31.969, 33.98, 33.792, 35.18, 29.48, 28.78, 34.392, 35.98, 15.18, 32.946, 32.98, 28.28, 48.18, 37.48, 34.892, 32.78, 34.892, 34.38, 32.717, 27.755, 35.585, 31.969, 48.176, 32.167, 30.683, 29.757];
@@ -18,10 +17,7 @@ const miscRatios = {
 	exclaimationMark: 15.575,
 	questionMark: 32.541
 }
-const timerSize = calcWidth(25, 0);
 const ratio = 86/8599.75;
-const symbols = ['+', '-', '*', '/'];
-const slideTime = 0.3;
 
 const Styles = {
 	equals: {
@@ -63,7 +59,7 @@ export default class Equation extends Component {
 		for(let i = 0; i < terms; i++)
 			values.push(Math.floor(Math.random() * 9) + 1)
 		let result = generateAnswer(values);
-		this.setState({ values, result: result.result, answer: result.answer, equation: true, active: new Array(terms - 1).fill(false), symbol: [], mounted: true, equation: true });
+		this.setState({ values, result: result.result, answer: result.answer, equation: true, active: new Array(terms - 1).fill(false), symbol: [], mounted: true });
 		this.calcEquationWidth(values, result.result);
 	}
 
@@ -110,21 +106,22 @@ export default class Equation extends Component {
 	}
 
 	activate(symbol) {
-		let operators = [];
+		let operators = [], active = this.state.active, symbols = this.state.symbol;
 		for(let i = 0; i < this.state.values.length - 1; i++) {
-			if(!this.state.active[i]) {
+			if(!active[i]) {
 				this.btn[i].open(symbol);
-				this.state.active[i] = true;
-				this.state.symbol[i] = symbol;
+				active[i] = true;
+				symbols[i] = symbol;
 				break;
 			}
 		}
+		this.setState({ active, symbol: symbols });
 		for(let i = 0; i < this.state.values.length - 1; i++) {
-			if(!this.state.active[i]) {
+			if(!active[i]) {
 				playSound(add_symbol);
 				return;
 			}
-			switch(this.state.symbol[i]) {
+			switch(symbols[i]) {
 				case plus:
 					operators[i] = '+';
 					break;
@@ -137,10 +134,13 @@ export default class Equation extends Component {
 				case divide:
 					operators[i] = '/';
 					break;
+				default: 
+					operators[i] = '+';
+					break;
 			}
 		}
 		if(solveEquation(this.state.values.slice(0), operators) === this.state.result)
-			this.props.game.correctAnswer(this.state.symbol);
+			this.props.game.correctAnswer(symbols);
 		else {
 			playSound(error);
 			this.shake();
@@ -148,7 +148,9 @@ export default class Equation extends Component {
 	}
 
 	disable(button) {
-		this.state.active[button] = false;
+		let active = this.state.active;
+		active[button] = false;
+		this.setState({ active });
 		if(tut) {
 			setTutCnt(Math.min(tutCnt, button));
 			this.props.game.controls.setTutorial();
@@ -156,10 +158,12 @@ export default class Equation extends Component {
 	}
 
 	removeAllSymbols() {
+		let active = this.state.active;
 		for(let i = 0; i < this.state.values.length - 1; i++) {
-			this.state.active[i] = false;
+			active[i] = false;
 			this.btn[i].close();
 		}
+		this.setState({ active });
 	}
 
 	render () {
@@ -182,7 +186,7 @@ export default class Equation extends Component {
 						<Term value = { this.state.mounted ? this.state.values[2] : 1 } />
 						{ this.state.values.length === 4 ? <Button ref = { ref => { this.btn[2] = ref }} disabled = { () => this.disable(2) } /> : null }
 						{ this.state.values.length === 4 ? <Term value = { this.state.mounted ?  this.state.values[3]: 1 } /> : null }
-						<img style = { Styles.equals } src = { equal } />
+						<img style = { Styles.equals } src = { equal } alt = { alt }/>
 						<Term value = { this.state.mounted ? this.state.result : 1 } />
 					</div> :
 					this.state.mounted ? this.state.text : 'hello world'

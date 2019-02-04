@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { calcWidth, calcHeight } from './logic.js';
 import { equal } from './images';
+import { alt } from './game_config.js';
 
 const fontSize = calcWidth(2500/98, 0);
 
@@ -43,10 +44,6 @@ const Styles = {
 }
 
 export default class ScoreEntry extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	renderEquation() {
 		var container = [];
 		if(this.props.values == null)
@@ -55,22 +52,22 @@ export default class ScoreEntry extends Component {
 			container.push(
 				<div style = { Styles.timeContainerT }>
 					<div style = { Styles.time }> { this.props.time } </div>
-					<img src = { this.props.emoji } style = { Styles.emoji } />
+					<img src = { this.props.emoji } style = { Styles.emoji } alt = { alt }/>
 				</div>
 			);
 		else
 			container.push(
 				<div style = { Styles.timeContainer }>
 					<div style = { Styles.time }> { this.props.time + 's' } </div>
-					<img src = { this.props.emoji } style = { Styles.emoji } />
+					<img src = { this.props.emoji } style = { Styles.emoji } alt = { alt }/>
 				</div>
 			);
 		for(var i = 0; i < this.props.operators.length; i++) {
 			container.push(<div style = { Styles.term }> { this.props.values[i] } </div>);
-			container.push(<img className = { this.props.special ? 'tilt_more' : ' ' } style = { Styles.symbol } src = { this.props.operators[i] }/>);
+			container.push(<img className = { this.props.special ? 'tilt_more' : ' ' } style = { Styles.symbol } src = { this.props.operators[i] } alt = { alt }/>);
 		}
 		container.push(<div style = { Styles.term }> { this.props.values[this.props.values.length - 1] } </div>);
-		container.push(<img style = { Styles.symbol } src = { equal }/>);
+		container.push(<img style = { Styles.symbol } src = { equal } alt = { alt }/>);
 		container.push(<div style = { Styles.term }> { this.props.result } </div>);
 		return container;
 	}

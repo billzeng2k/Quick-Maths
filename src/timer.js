@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { calcWidth, setMaxR, setTerms } from './logic.js';
 import { playAnimation, resetAnimation } from './animation.js';
 import { infinite } from './images';
-import { gameRunning, timerSize } from './game_config.js';
+import { gameRunning, timerSize, alt } from './game_config.js';
 
 const borderSize = calcWidth(100/98, 0);
 const fontSize = calcWidth(2500/98, 0);
@@ -119,7 +119,7 @@ export default class Timer extends Component {
 			<div ref = { ref => { this.container = ref }} className = 'pop_up_animation' style = { StylesT.container }>
 				{ 
 					gameTime === 'inf' ? 
-					<img style = { StylesT.inf } src = { infinite } /> :
+					<img style = { StylesT.inf } src = { infinite } alt = { alt }/> :
 					<p style = { StylesT.time }> { Math.min(this.state.time, gameTime) } </p>
 				}
 				<svg style = { StylesT.svg }>

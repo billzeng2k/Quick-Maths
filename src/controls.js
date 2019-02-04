@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { calcWidth } from './logic.js';
-import { gameRunning, tutCnt, tutAns } from './game_config.js';
+import { gameRunning, tutCnt, tutAns, alt } from './game_config.js';
 import { playAnimation, resetAnimation } from './animation.js';
 import { plus, minus, multiply, divide } from './images';
 import { playSound, remove_symbol } from './sounds';
@@ -106,16 +106,16 @@ export default class Controls extends Component {
 			<div className = 'slide_up_pop_animation' style = { StylesC.container } ref = { ref => { this.container = ref }} >
 				<div style = {{ width: '100%' }}>
 					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(plus) } ref = { ref => { this.buttons['+'] = ref }}>
-						<img style = { StylesC.symbolImg } src = { plus } />
+						<img style = { StylesC.symbolImg } src = { plus } alt = { alt }/>
 					</div>
 					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(minus) } ref = { ref => { this.buttons['-'] = ref }}> 
-						<img style = { StylesC.symbolImg } src = { minus } />
+						<img style = { StylesC.symbolImg } src = { minus } alt = { alt }/>
 					</div>
 					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(multiply) } ref = { ref => { this.buttons['*'] = ref }}>
-						<img style = { StylesC.symbolImg } src = { multiply } />
+						<img style = { StylesC.symbolImg } src = { multiply } alt = { alt }/>
 					</div>
 					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(divide) } ref = { ref => { this.buttons['/'] = ref }}> 
-						<img style = { StylesC.symbolImg } src = { divide } />
+						<img style = { StylesC.symbolImg } src = { divide } alt = { alt }/>
 					</div>
 				</div>
 				<div id = 'button' style = { StylesC.clear } onClick = { () => { this.removeAllSymbols(); playSound(remove_symbol); }} ref = { ref => { this.clear = ref }}> CLEAR </div>

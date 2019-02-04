@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { calcHeight, calcWidth } from './logic.js';
 import { crown, crownS, crownC, award } from './images';
+import { alt } from './game_config.js';
 
 const fontSize = calcWidth(800/98, 0);
 const fontSizeEn = calcWidth(1250/98, 0);
@@ -37,14 +38,14 @@ const Styles = {
 export default class Rank extends Component {
 	render() {
 		if(this.props.rank === 1)
-			return <img style = { Styles.rank } src = { crown } alt = 'img failed to load :('/>;
+			return <img style = { Styles.rank } src = { crown } alt = { alt }/>;
 		if(this.props.rank === 2)
-			return <img style = { Styles.rank } src = { crownS } alt = 'img failed to load :('/>;
+			return <img style = { Styles.rank } src = { crownS } alt = { alt }/>;
 		if(this.props.rank === 3)
-			return <img style = { Styles.rank } src = { crownC } alt = 'img failed to load :('/>;
+			return <img style = { Styles.rank } src = { crownC } alt = { alt }/>;
 		return (
 			<div style = { Styles.award }>
-				<img style = { Styles.awardImg } src = { award } alt = 'img failed to load :('/>
+				<img style = { Styles.awardImg } src = { award } alt = { alt }/>
 				<div style = { Styles.awardText }> { this.props.rank } </div>
 			</div>
 		);

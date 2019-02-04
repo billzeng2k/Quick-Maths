@@ -6,6 +6,7 @@ import { book, crown } from './images';
 import { playSound, menu } from './sounds';
 import { ButtonContainer } from './buttons.js';
 import ScoreEntry from './score_entry.js';
+import { alt } from './game_config.js';
 
 const fontSize = calcWidth(2500/98, 0);
 
@@ -104,16 +105,16 @@ export default class LoseScreen extends Component {
 	render() {
 		return (
 			<div style = { StylesSS.container }>
-				<img id = 'button' className = 'tease_animation' src = { book } style = { StylesSS.book } onClick = { () => { this.toggleHistory(); playSound(menu); }} ref = { ref => { this.book = ref }}/>
+				<img id = 'button' className = 'tease_animation' src = { book } style = { StylesSS.book } onClick = { () => { this.toggleHistory(); playSound(menu); }} ref = { ref => { this.book = ref }} alt = { alt }/>
 				<div className = 'slide_down_pop_animation' style = {{ marginTop: calcHeight(2, 0) + 'px' }} ref = { ref => { this.scoreContainer = ref }}>
-					<img className = 'bob' style = { this.newBest ? { width: calcWidth(20, 0) + 'px' } : { display: 'none' }} src = { crown } />
+					<img className = 'bob' style = { this.newBest ? { width: calcWidth(20, 0) + 'px' } : { display: 'none' }} src = { crown } alt = { alt }/>
 					<div style = { StylesSS.score }> { this.state.score } </div>
 					<div className = 'tilt' style = { this.newBest ? { fontSize: fontSize/2 + 'px' } : { display: 'none' }}> New Best! </div>
 					<div className = 'tilt' style = { this.newBest ? { display: 'none' } : { }}> 
 						<div style = { StylesSS.bar }> </div>
-						<img style = { StylesSS.highScoreCrown } src = { crown } />
+						<img style = { StylesSS.highScoreCrown } src = { crown } alt = { alt }/>
 						<div style = { StylesSS.highScore }> { highScore } </div>
-						<img style = { StylesSS.highScoreCrown } src = { crown } />
+						<img style = { StylesSS.highScoreCrown } src = { crown } alt = { alt }/>
 						<div style = { StylesSS.bar }> </div>
 					</div>
 				</div>

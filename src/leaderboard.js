@@ -4,6 +4,7 @@ import { playAnimation, resetAnimation } from './animation.js';
 import { ButtonContainer } from './buttons.js';
 import { fight } from './images';
 import Entry from './entry.js';
+import { alt } from './game_config.js';
 
 const fontSize = calcWidth(2500/98, 0);
 const entrySize = calcHeight(100, - fontSize * 2 - calcWidth(35, 0)) / 6;
@@ -92,7 +93,7 @@ export default class Leaderboard extends Component {
 				</div>
 				<div style = { window.FBInstant.context.getID() === null ? Styles.noContext : { display:  'none' }} ref = { ref => { this.noContext = ref }}>
 					<div className = 'pulse'>
-						<img style = { Styles.noContextImage } src = { fight } alt = 'failed to load :('/>
+						<img style = { Styles.noContextImage } src = { fight } alt = { alt }/>
 						<div> Challenge a friend first! </div>
 					</div>
 				</div>

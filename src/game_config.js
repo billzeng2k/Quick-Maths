@@ -1,6 +1,7 @@
 import { grin, love, cool, angel, silly, smile, surprised, angry, poo, dizzy, cry } from './images';
 import { calcWidth } from './logic.js';
 
+export const alt = 'Gah it broke :(';
 export const winEmojis = [grin, love, cool, angel, silly, smile];
 export const loseEmojis = [surprised, angry, poo, dizzy, cry];
 export let gameRunning = false, homebutton = true;
