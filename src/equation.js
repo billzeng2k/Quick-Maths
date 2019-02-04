@@ -95,7 +95,9 @@ export default class Equation extends Component {
 		let equationWidth = 0;
 		for(let i = 0; i < values.length; i++) 
 			equationWidth += fontSize * numberRatios[values[i]] * ratio;
-		for(let i = 0, digit = ''; digit = result.toString().charAt(i); i++) {
+		let resultToString = result.toString();
+		for(let i = 0; i < resultToString.length; i++) {
+			let digit = resultToString.charAt(i)
 			if(digit !== '-')
 				equationWidth += fontSize * numberRatios[digit - '0'] * ratio;
 		}
