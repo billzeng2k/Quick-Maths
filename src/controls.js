@@ -6,14 +6,14 @@ import { plus, minus, multiply, divide } from './images';
 import { playSound, remove_symbol } from './sounds';
 
 const buttonMargin = 3;
-const borderSize = calcWidth(100/98, 0);
-const fontSize = calcWidth(1500/98, 0) + 'px';
+const borderSize = calcWidth(100 / 98, 0);
+const fontSize = calcWidth(1500 / 98, 0) + 'px';
 
 const StylesC = {
 	container: {
 		width: '100%',
 		margin: 0,
-		position: 'absolute', 
+		position: 'absolute',
 		bottom: 0
 	},
 	clear: {
@@ -33,10 +33,10 @@ const StylesC = {
 		borderRadius: (2 * borderSize) + 'px',
 	},
 	symbolImg: {
-		position: 'relative', 
-		top: '10%', 
-		left: '10%', 
-		width: '80%', 
+		position: 'relative',
+		top: '10%',
+		left: '10%',
+		width: '80%',
 		height: '80%'
 	}
 }
@@ -50,13 +50,13 @@ export default class Controls extends Component {
 	}
 
 	activateSymbol(symbol) {
-		if(gameRunning)
+		if (gameRunning)
 			this.props.callbackRef.symbolPress(symbol);
 	}
 
 	removeAllSymbols() {
 		resetAnimation(this.clear, 'colorG');
-		if(gameRunning)
+		if (gameRunning)
 			this.props.callbackRef.removeAllSymbols();
 	}
 
@@ -80,14 +80,15 @@ export default class Controls extends Component {
 		resetAnimation(this.buttons['*'], 'colorG');
 		resetAnimation(this.buttons['/'], 'colorG');
 		resetAnimation(this.clear, 'colorY');
+		this.forceUpdate();
 	}
 
 	setTutorial() {
-		if(tutCnt >= tutAns.length)
+		if (!gameRunning || tutCnt >= tutAns.length)
 			return;
-		if(tutCnt > 0)
+		if (tutCnt > 0)
 			playAnimation(this.clear, 'colorY');
-		else 
+		else
 			resetAnimation(this.clear, 'colorY');
 		playAnimation(this.buttons['+'], 'unclickable');
 		playAnimation(this.buttons['-'], 'unclickable');
@@ -101,24 +102,24 @@ export default class Controls extends Component {
 		playAnimation(this.buttons[tutAns[tutCnt]], 'colorG');
 	}
 
-	render () {
+	render() {
 		return (
-			<div className = 'slide_up_pop_animation' style = { StylesC.container } ref = { ref => { this.container = ref }} >
-				<div style = {{ width: '100%' }}>
-					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(plus) } ref = { ref => { this.buttons['+'] = ref }}>
-						<img style = { StylesC.symbolImg } src = { plus } alt = { alt }/>
+			<div className='slide_up_pop_animation' style={StylesC.container} ref={ref => { this.container = ref }} >
+				<div style={{ width: '100%' }}>
+					<div id='button' style={StylesC.symbol} onClick={() => this.activateSymbol(plus)} ref={ref => { this.buttons['+'] = ref }}>
+						<img style={StylesC.symbolImg} src={plus} alt={alt} />
 					</div>
-					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(minus) } ref = { ref => { this.buttons['-'] = ref }}> 
-						<img style = { StylesC.symbolImg } src = { minus } alt = { alt }/>
+					<div id='button' style={StylesC.symbol} onClick={() => this.activateSymbol(minus)} ref={ref => { this.buttons['-'] = ref }}>
+						<img style={StylesC.symbolImg} src={minus} alt={alt} />
 					</div>
-					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(multiply) } ref = { ref => { this.buttons['*'] = ref }}>
-						<img style = { StylesC.symbolImg } src = { multiply } alt = { alt }/>
+					<div id='button' style={StylesC.symbol} onClick={() => this.activateSymbol(multiply)} ref={ref => { this.buttons['*'] = ref }}>
+						<img style={StylesC.symbolImg} src={multiply} alt={alt} />
 					</div>
-					<div id = 'button' style = { StylesC.symbol } onClick = { () => this.activateSymbol(divide) } ref = { ref => { this.buttons['/'] = ref }}> 
-						<img style = { StylesC.symbolImg } src = { divide } alt = { alt }/>
+					<div id='button' style={StylesC.symbol} onClick={() => this.activateSymbol(divide)} ref={ref => { this.buttons['/'] = ref }}>
+						<img style={StylesC.symbolImg} src={divide} alt={alt} />
 					</div>
 				</div>
-				<div id = 'button' style = { StylesC.clear } onClick = { () => { this.removeAllSymbols(); playSound(remove_symbol); }} ref = { ref => { this.clear = ref }}> CLEAR </div>
+				<div id='button' style={StylesC.clear} onClick={() => { this.removeAllSymbols(); playSound(remove_symbol); }} ref={ref => { this.clear = ref }}> CLEAR </div>
 			</div>
 		);
 	}

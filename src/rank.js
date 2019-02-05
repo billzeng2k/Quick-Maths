@@ -31,7 +31,7 @@ const Styles = {
 		width: entrySize - margin * 2 + 'px',
 		position: 'absolute',
 		fontSize: fontSize + 'px',
-		top: - fontSize / 3.5 + 'px'
+		top: entrySize / 2.75 + 'px'
 	}
 }
 

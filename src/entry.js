@@ -12,25 +12,27 @@ const Styles = {
 		fontSize: fontSize + 'px',
 		borderStyle: 'solid',
 		borderWidth: '0px 0px ' + calcHeight(0.3, 0) + 'px',
-		lineHeight: entrySize + 'px',
 		width: calcWidth(100, 0),
+		lineHeight: 0
 	},
 	loading: {
 		fontSize: fontSize + 'px',
 		borderStyle: 'solid',
 		borderWidth: '0px 0px ' + calcHeight(0.3, 0) + 'px',
-		lineHeight: entrySize + 'px',
 		width: calcWidth(100, 0),
-		textAlign: 'center'
+		textAlign: 'center',
+		lineHeight: 0
 	},
 	score: {
 		display: 'inline-block',
-		verticalAlign: 'top',
+		lineHeight: entrySize + 'px',
+		verticalAlign: 'bottom',
 		float: 'right'
 	},
 	name: {
 		display: 'inline-block',
 		verticalAlign: 'top',
+		lineHeight: entrySize + 'px'
 	},
 	componentImage: {
 		display: 'inline-block',
@@ -44,28 +46,22 @@ const Styles = {
 export default class Entry extends Component {
 	constructor(props) {
 		super(props);
-		this.rank = this.props.rank;
-		this.name = this.props.name;
-		this.photo = this.props.photo;
-		this.score = this.props.score;
+		this.state = { rank: this.props.rank, name: this.props.name, photo: this.props.photo, score: this.props.score };
 	}
 
 	setEntry(rank, name, photo, score) {
-		this.rank = rank;
-		this.name = name;
-		this.photo = photo;
-		this.score = score;
+		this.setState({ rank, name, photo, score });
 	}
 
 	render() {
-		if(this.rank == null) 
+		if(this.state.rank === null) 
 			return <div style = { Styles.loading }> Loading </div>;
 		return (
 			<div style = { Styles.entry }>
-				<img style = { Styles.componentImage } src = { this.photo }  alt = { alt }/>
-				<div style = { Styles.name }> { this.name } </div>
-				<Rank rank = { this.rank } />
-				<div style = { Styles.score }> { this.score } </div>
+				<img style = { Styles.componentImage } src = { this.state.photo }  alt = { alt }/>
+				<div style = { Styles.name }> { this.state.name } </div>
+				<Rank rank = { this.state.rank } />
+				<div style = { Styles.score }> { this.state.score } </div>
 			</div>
 		);
 	}

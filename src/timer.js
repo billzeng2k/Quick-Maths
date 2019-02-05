@@ -8,7 +8,7 @@ const borderSize = calcWidth(100/98, 0);
 const fontSize = calcWidth(2500/98, 0);
 
 const circumference = timerSize * 2 * Math.PI;
-const sequence = ['inf', 15, 14, 13, 12, 12, 11, 11, 10, 10, 10, 9, 9, 9, 8, 8, 8, 8, 7, 7, 7, 7, 7, 6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 'change', 20, 15, 14, 13, 12, 12, 11, 11, 10, 10, 10, 9, 9, 9, 8, 8, 8, 8, 7, 7, 7, 7, 7, 6, 6, 6, 6, 6, 5];
+const sequence = ['inf', 0, 14, 13, 12, 12, 11, 11, 10, 10, 10, 9, 9, 9, 8, 8, 8, 8, 7, 7, 7, 7, 7, 6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 'change', 20, 15, 14, 13, 12, 12, 11, 11, 10, 10, 10, 9, 9, 9, 8, 8, 8, 8, 7, 7, 7, 7, 7, 6, 6, 6, 6, 6, 5];
 let gameTime = sequence[0];
 
 const StylesT = {

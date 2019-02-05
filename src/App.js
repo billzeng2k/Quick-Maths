@@ -20,6 +20,7 @@ class App extends Component {
 				window.FBInstant.startGameAsync()
 					.then(function () {
 						console.log('game started');
+
 					});
 			});
 		setTimeout(() => { this.setState({ screenName: 'Home' }) }, 200);
@@ -56,7 +57,7 @@ class App extends Component {
 				<div style={
 					this.state.screenName !== 'Score' ? { display: 'none' } : { display: 'initial' }
 				}>
-					<LoseScreen changeScreen={this.changeScreen.bind(this)} ref = { ref => { this.screen['Score'] = ref }} />
+					<LoseScreen changeScreen={this.changeScreen.bind(this)} ref={ref => { this.screen['Score'] = ref }} />
 				</div>
 				<div style={
 					this.state.screenName !== 'Leaderboard' ? { display: 'none' } : { display: 'initial' }
@@ -66,7 +67,7 @@ class App extends Component {
 				<div style={
 					this.state.screenName !== 'Play' ? { display: 'none' } : { display: 'initial' }
 				}>
-					<GameScreen changeScreen={this.changeScreen.bind(this)} ref = {ref => { this.screen['Play'] = ref }} />
+					<GameScreen changeScreen={this.changeScreen.bind(this)} ref={ref => { this.screen['Play'] = ref }} />
 				</div>
 			</div>
 		);

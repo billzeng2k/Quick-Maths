@@ -6,7 +6,7 @@ import { fight } from './images';
 import Entry from './entry.js';
 import { alt } from './game_config.js';
 
-const fontSize = calcWidth(2500/98, 0);
+const fontSize = calcWidth(2500 / 98, 0);
 const entrySize = calcHeight(100, - fontSize * 2 - calcWidth(35, 0)) / 6;
 
 const Styles = {
@@ -55,12 +55,14 @@ export default class Leaderboard extends Component {
 	}
 
 	reset() {
-		window.FBInstant.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
-		  .then((leaderboard) => leaderboard.getPlayerEntryAsync())
-		  .then((entry) => this.currentPlayer.setEntry(entry.getRank(), entry.getPlayer().getName(), entry.getPlayer().getPhoto(), entry.getScore()));
-		window.FBInstant.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
-		  .then((leaderboard) => leaderboard.getEntriesAsync())
-		  .then((entries) => this.setState({ entries }))
+		if (window.FBInstant.context !== null) {
+			window.FBInstant.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
+				.then((leaderboard) => leaderboard.getPlayerEntryAsync())
+				.then((entry) => this.currentPlayer.setEntry(entry.getRank(), entry.getPlayer().getName(), entry.getPlayer().getPhoto(), entry.getScore()));
+			window.FBInstant.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
+				.then((leaderboard) => leaderboard.getEntriesAsync())
+				.then((entries) => this.setState({ entries }))
+		}
 		this.buttons.reset();
 		resetAnimation(this.noContext, 'fade_out_animation');
 		resetAnimation(this.entryContainer, 'fade_out_animation');
@@ -68,13 +70,23 @@ export default class Leaderboard extends Component {
 	}
 
 	renderEntries() {
-		if(this.state.entries === -1)
+		if (this.state.entries === -1)
 			return;
 		var elements = [];
-		for(var i = 0; i < this.state.entries.length; i++) {
-			if(window.FBInstant.player.getID() === this.state.entries[i].getPlayer().getID())
+		for (var i = 0; i < this.state.entries.length; i++) {
+			if (window.FBInstant.player.getID() === this.state.entries[i].getPlayer().getID())
 				continue;
-			var entry = <Entry key = { i } rank = { this.state.entries[i].getRank() } name = { this.state.entries[i].getPlayer().getName() } photo = { this.state.entries[i].getPlayer().getPhoto() } score = { this.state.entries[i].getScore() }/>;
+			var entry = <Entry key={i} rank={this.state.entries[i].getRank()} name={this.state.entries[i].getPlayer().getName()} photo={this.state.entries[i].getPlayer().getPhoto()} score={this.state.entries[i].getScore()} />;
+			elements.push(entry);
+			elements.push(entry);
+			elements.push(entry);
+			elements.push(entry);
+			elements.push(entry);
+			elements.push(entry);
+			elements.push(entry);
+			elements.push(entry);
+			elements.push(entry);
+			elements.push(entry);
 			elements.push(entry);
 		}
 		return elements;
@@ -83,21 +95,21 @@ export default class Leaderboard extends Component {
 	render() {
 		return (
 			<div>
-				<div style = { Styles.title } className = 'slide_down_pop_animation' ref = { ref => { this.title = ref }}> Leaderboard </div>
-				<div className = 'fade_in_animation' style = { window.FBInstant.context.getID() === null ? { display:  'none' } : { }} ref = { ref => { this.entryContainer = ref }}>
-					<Entry ref = { ref => { this.currentPlayer = ref }}/>
-					<div style = { Styles.entryContainer }>
-						{ this.renderEntries() }
-						<div style = { Styles.foreground }> </div>
+				<div style={Styles.title} className='slide_down_pop_animation' ref={ref => { this.title = ref }}> Leaderboard </div>
+				<div className='fade_in_animation' style={window.FBInstant.context.getID() === null ? { display: 'none' } : {}} ref={ref => { this.entryContainer = ref }}>
+					<Entry ref={ref => { this.currentPlayer = ref }} />
+					<div style={Styles.entryContainer}>
+						{this.renderEntries()}
+						<div style={Styles.foreground}> </div>
 					</div>
 				</div>
-				<div style = { window.FBInstant.context.getID() === null ? Styles.noContext : { display:  'none' }} ref = { ref => { this.noContext = ref }}>
-					<div className = 'pulse'>
-						<img style = { Styles.noContextImage } src = { fight } alt = { alt }/>
+				<div style={window.FBInstant.context.getID() === null ? Styles.noContext : { display: 'none' }} ref={ref => { this.noContext = ref }}>
+					<div className='pulse'>
+						<img style={Styles.noContextImage} src={fight} alt={alt} />
 						<div> Challenge a friend first! </div>
 					</div>
 				</div>
-				<ButtonContainer changeScreen = { this.props.changeScreen } ref = { ref => { this.buttons = ref }} button1 = 'home' button2 = 'challenge' button3 = 'sound'/>
+				<ButtonContainer changeScreen={this.props.changeScreen} ref={ref => { this.buttons = ref }} button1='home' button2='challenge' button3='sound' />
 			</div>
 		);
 	}

@@ -95,7 +95,6 @@ export default class GameScreen extends Component {
         clearTimeout(this.timeout1);
         clearTimeout(this.timeout2);
         clearTimeout(this.timeout3);
-        clearTimeout(this.timeout4);
         setGameRunning(false);
         setTerms(3);
         setMaxR(99);
@@ -108,8 +107,7 @@ export default class GameScreen extends Component {
         this.eq[(this.currentEquation + 2) % 4].setText('QUICK MATHS!');
         this.timeout1 = setTimeout(() => { this.shiftEquations(false); playSound(ready); } , 750);
         this.timeout2 = setTimeout(() => { this.shiftEquations(true); playSound(set); }, 1500);
-        this.timeout3 = setTimeout(() => { this.shiftEquations(true); playSound(go); setTut(true); setTutCnt(0); setTutAns(this.eq[this.currentEquation].getAnswer()); this.controls.setTutorial() }, 2250);
-        this.timeout4 = setTimeout(() => { this.timer.startCountdown(); setGameRunning(true) }, 2250);
+        this.timeout3 = setTimeout(() => { setGameRunning(true); this.shiftEquations(true); playSound(go); setTut(true); setTutCnt(0); setTutAns(this.eq[this.currentEquation].getAnswer()); this.controls.setTutorial(); this.timer.startCountdown(); }, 2250);
     }
 
     gameFinished(score) {
