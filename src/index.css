@@ -43,11 +43,11 @@ html, body {
 }
 
 .colorG {
-  background-color: rgba(46, 204, 113, 0.25) !important;
+  background-color: rgba(46, 204, 113, 1.0) !important;
 }
 
 .colorY {
-  background-color: rgba(241, 196, 15, 0.25) !important;
+  background-color: rgba(241, 196, 15, 1.0) !important;
 }
 
 .tease_animation {

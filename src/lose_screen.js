@@ -32,6 +32,15 @@ const Styles = {
 		width: calcWidth(10, 0),
 		height: calcWidth(10, 0)
 	},
+	share: {
+		margin: buttonMargin + '%',
+		width: calcWidth(100 - buttonMargin * 2, - 2 * borderSize),
+		border: borderSize + 'px solid black',
+		borderRadius: (2 * borderSize),
+		fontSize: fontSizePA,
+		textAlign: 'center',
+		backgroundColor: '#00a8ff'
+	},
 	play_again: {
 		margin: buttonMargin + '%',
 		width: calcWidth(100 - buttonMargin * 2, - 2 * borderSize),
@@ -39,6 +48,7 @@ const Styles = {
 		borderRadius: (2 * borderSize),
 		fontSize: fontSizePA,
 		textAlign: 'center',
+		backgroundColor: '#4cd137'
 	},
 	entryContainer: {
 		position: 'relative',
@@ -95,7 +105,7 @@ export default class LoseScreen extends Component {
 			.getStatsAsync(['high_score']).then((stats) => {
 				window.FBInstant.player
 					.setStatsAsync({
-						high_score: Math.max(score, stats['high_score']),
+						high_score: stats['high_score'] === undefined ? score : Math.max(score, stats['high_score']),
 					});
 				if (stats['high_score'] !== undefined)
 					setHighScore(Math.max(score, stats['high_score'], highScore));
@@ -111,7 +121,7 @@ export default class LoseScreen extends Component {
 		if (window.FBInstant.context.getID() !== null) {
 			window.FBInstant.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
 				.then((leaderboard) => leaderboard.getPlayerEntryAsync())
-				.then((entry) => this.currentPlayer.setEntry(entry.getRank(), entry.getPlayer().getName(), entry.getPlayer().getPhoto(), entry.getScore()));
+				.then((entry) => this.currentPlayer.setEntry(entry.getRank(), entry.getPlayer().getName(), entry.getPlayer().getPhoto(), Math.max(score, highScore, entry.getScore())));
 			window.FBInstant.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
 				.then((leaderboard) => leaderboard.getEntriesAsync())
 				.then((entries) => this.setState({ entries }))
@@ -195,7 +205,7 @@ export default class LoseScreen extends Component {
 					</div>
 				</div>
 				<div className='slide_up_pop_animation' ref={ref => { this.play_again = ref }} style={{ position: 'fixed', bottom: 0 }}>
-					<div className='pulse_big' id='button' style={Styles.play_again} onClick={() => { this.share(); playSound(menu) }}> Share Score! </div>
+					<div className='pulse_big' id='button' style={Styles.share} onClick={() => { this.share(); playSound(menu) }}> Share Score! </div>
 					<div id='button' style={Styles.play_again} onClick={() => { this.props.changeScreen('Play'); playSound(menu) }}> Play Again! </div>
 				</div>
 			</div>

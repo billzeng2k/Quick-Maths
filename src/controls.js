@@ -23,6 +23,7 @@ const Styles = {
 		borderRadius: (2 * borderSize) + 'px',
 		fontSize: fontSize,
 		textAlign: 'center',
+		backgroundColor: 'rgba(241, 196, 15, 0.25)'
 	},
 	symbol: {
 		marginLeft: buttonMargin + '%',
@@ -31,6 +32,7 @@ const Styles = {
 		height: calcWidth(25 - buttonMargin * 1.25, - 2 * borderSize),
 		border: borderSize + 'px solid black',
 		borderRadius: (2 * borderSize) + 'px',
+		backgroundColor: 'rgba(46, 204, 113, 0.25)'
 	},
 	symbolImg: {
 		position: 'relative',

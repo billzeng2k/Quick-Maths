@@ -38,7 +38,7 @@ export default class Button extends Component {
 					boxSizing: 'border-box',
 					border: borderSize + 'px solid black',
 					borderRadius: '10000px',
-					backgroundColor: tut ?'rgba(241, 196, 15, 0.25)' : 'transparent',
+					backgroundColor: tut ?'rgba(241, 196, 15, 1.0)' : 'rgba(241, 196, 15, 0.25)',
 					margin: 'auto',
 					width: buttonSize * this.state.buttonRatio + 'px',
 					height: buttonSize * this.state.buttonRatio + 'px',
