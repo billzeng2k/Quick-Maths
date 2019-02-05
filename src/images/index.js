@@ -23,6 +23,7 @@ export { default as play } from './play.png';
 export { default as plus } from './plus.png'; 
 export { default as poo } from './poo.png'; 
 export { default as restart } from './restart.png'; 
+export { default as share } from './share.png';
 export { default as silly } from './silly.png'; 
 export { default as smile } from './smile.png'; 
 export { default as sound } from './sound.png'; 

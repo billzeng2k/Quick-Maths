@@ -55,7 +55,7 @@ export default class Leaderboard extends Component {
 	}
 
 	reset() {
-		if (window.FBInstant.context !== null) {
+		if (window.FBInstant.context.getID() !== null) {
 			window.FBInstant.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
 				.then((leaderboard) => leaderboard.getPlayerEntryAsync())
 				.then((entry) => this.currentPlayer.setEntry(entry.getRank(), entry.getPlayer().getName(), entry.getPlayer().getPhoto(), entry.getScore()));
@@ -72,21 +72,11 @@ export default class Leaderboard extends Component {
 	renderEntries() {
 		if (this.state.entries === -1)
 			return;
-		var elements = [];
-		for (var i = 0; i < this.state.entries.length; i++) {
+		let elements = [];
+		for (let i = 0; i < this.state.entries.length; i++) {
 			if (window.FBInstant.player.getID() === this.state.entries[i].getPlayer().getID())
 				continue;
-			var entry = <Entry key={i} rank={this.state.entries[i].getRank()} name={this.state.entries[i].getPlayer().getName()} photo={this.state.entries[i].getPlayer().getPhoto()} score={this.state.entries[i].getScore()} />;
-			elements.push(entry);
-			elements.push(entry);
-			elements.push(entry);
-			elements.push(entry);
-			elements.push(entry);
-			elements.push(entry);
-			elements.push(entry);
-			elements.push(entry);
-			elements.push(entry);
-			elements.push(entry);
+			let entry = <Entry key={i} rank={this.state.entries[i].getRank()} name={this.state.entries[i].getPlayer().getName()} photo={this.state.entries[i].getPlayer().getPhoto()} score={this.state.entries[i].getScore()} />;
 			elements.push(entry);
 		}
 		return elements;

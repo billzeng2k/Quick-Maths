@@ -32,14 +32,14 @@ const Styles = {
 	name: {
 		display: 'inline-block',
 		verticalAlign: 'top',
-		lineHeight: entrySize + 'px'
+		lineHeight: entrySize + 'px',
 	},
 	componentImage: {
 		display: 'inline-block',
 		margin: margin + 'px',
 		height: entrySize - margin * 2 + 'px',
 		width: entrySize - margin * 2 + 'px',
-		borderRadius: entrySize + 'px'
+		borderRadius: entrySize + 'px',
 	}
 }
 
@@ -54,7 +54,7 @@ export default class Entry extends Component {
 	}
 
 	render() {
-		if(this.state.rank === null) 
+		if(this.state.photo === null) 
 			return <div style = { Styles.loading }> Loading </div>;
 		return (
 			<div style = { Styles.entry }>

@@ -26,7 +26,7 @@ class App extends Component {
 		setTimeout(() => { this.setState({ screenName: 'Home' }) }, 200);
 	}
 
-	changeScreen(screenName, score, solvedEquation) {
+	changeScreen(screenName, score) {
 		if (this.wait)
 			return;
 		this.wait = true;
@@ -39,7 +39,7 @@ class App extends Component {
 			if (screenName === 'Play')
 				this.screen[screenName].startGame();
 			else if (screenName === 'Score')
-				this.screen[screenName].reset(score, solvedEquation);
+				this.screen[screenName].reset(score);
 			else
 				this.screen[screenName].reset();
 			this.wait = false;

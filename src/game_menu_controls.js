@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { calcWidth } from './logic.js';
 import { playSound, toggleSound, menu, muted } from './sounds';
-import { setGameRunning, alt } from './game_config.js';
+import { gameRunning, setGameRunning, alt } from './game_config.js';
 import { playAnimation, resetAnimation } from './animation.js';
 import { home, restart, mute, sound } from './images'; 
 const borderSize = calcWidth(50/98, 0);
@@ -42,8 +42,10 @@ export default class GameMenuControls extends Component {
 	}
 
 	homeButton() {
-		setGameRunning(false);
-		this.props.changeScreen('Home');
+		if(gameRunning) {
+			setGameRunning(false);
+			this.props.changeScreen('Home');
+		}
 	}
 
 	transitionOut() {

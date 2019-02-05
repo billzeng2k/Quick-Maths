@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { calcWidth, setMaxR, setTerms, convertToImages } from './logic.js';
+import { calcWidth, setMaxR, setTerms } from './logic.js';
 import { playSound, win, ready, set, go, finish } from './sounds';
 import { playAnimation, resetAnimation } from './animation.js';
-import { timerSize, winEmojis, loseEmojis, tut, tutCnt, setTutCnt, setTut, setTutAns, setHomeButton, gameRunning, setGameRunning } from './game_config.js';
+import { timerSize, tut, tutCnt, setTutCnt, setTut, setTutAns, setHomeButton, gameRunning, setGameRunning } from './game_config.js';
 import GameMenuControls from './game_menu_controls.js';
 import Equation from './equation.js';
 import Controls from './controls.js';
@@ -26,7 +26,6 @@ export default class GameScreen extends Component {
 		this.currentEquation = 1;
         setHomeButton(true);
 		this.eq = [];
-        this.solvedEq = [];
 	}
 
 	symbolPress(symbol) {
@@ -41,9 +40,9 @@ export default class GameScreen extends Component {
 		this.eq[this.currentEquation].removeAllSymbols();
 	}
 
-	correctAnswer(solution) {
+	correctAnswer() {
         playSound(win);
-        this.solvedEq.push({ values: this.eq[this.currentEquation].getValues(), operators: solution, result: this.eq[this.currentEquation].getResult(), time: this.timer.equationSolved(), emoji: winEmojis[Math.floor(Math.random() * winEmojis.length)] });
+        this.timer.equationSolved();
         if(tut) {
             setTut(false);
             this.controls.resetAnimation();
@@ -82,7 +81,6 @@ export default class GameScreen extends Component {
 
     joinGame() {
         setGameRunning(false);
-        this.solvedEq = [];
         this.timer.initialize();
         this.timer.resetAnimation();
         this.controls.resetAnimation();
@@ -112,13 +110,12 @@ export default class GameScreen extends Component {
 
     gameFinished(score) {
         playSound(finish);
-        this.solvedEq.push({ values: this.eq[this.currentEquation].getValues(), operators: convertToImages(this.eq[this.currentEquation].getAnswer()), result: this.eq[this.currentEquation].getResult(), time: 'FAILED', emoji: loseEmojis[Math.floor(Math.random() * loseEmojis.length)] });
         setGameRunning(false);
         setHomeButton(true);
         let i = Math.floor(Math.random() * exclaimations.length);
-        this.eq[this.currentEquation].setText(exclaimations[i]);
+        this.eq[this.currentEquation].showAnswer();
         this.eq[(this.currentEquation + 1) % 4].setText(exclaimations[(i + 1 + Math.floor(Math.random() * (exclaimations.length - 1))) % exclaimations.length]);
-        this.props.changeScreen('Score', score, this.solvedEq);
+        setTimeout(() => this.props.changeScreen('Score', score), 1500);
     }
 
 	render () {

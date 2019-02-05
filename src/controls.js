@@ -9,7 +9,7 @@ const buttonMargin = 3;
 const borderSize = calcWidth(100 / 98, 0);
 const fontSize = calcWidth(1500 / 98, 0) + 'px';
 
-const StylesC = {
+const Styles = {
 	container: {
 		width: '100%',
 		margin: 0,
@@ -104,22 +104,22 @@ export default class Controls extends Component {
 
 	render() {
 		return (
-			<div className='slide_up_pop_animation' style={StylesC.container} ref={ref => { this.container = ref }} >
+			<div className='slide_up_pop_animation' style={Styles.container} ref={ref => { this.container = ref }} >
 				<div style={{ width: '100%' }}>
-					<div id='button' style={StylesC.symbol} onClick={() => this.activateSymbol(plus)} ref={ref => { this.buttons['+'] = ref }}>
-						<img style={StylesC.symbolImg} src={plus} alt={alt} />
+					<div id='button' style={Styles.symbol} onClick={() => this.activateSymbol(plus)} ref={ref => { this.buttons['+'] = ref }}>
+						<img style={Styles.symbolImg} src={plus} alt={alt} />
 					</div>
-					<div id='button' style={StylesC.symbol} onClick={() => this.activateSymbol(minus)} ref={ref => { this.buttons['-'] = ref }}>
-						<img style={StylesC.symbolImg} src={minus} alt={alt} />
+					<div id='button' style={Styles.symbol} onClick={() => this.activateSymbol(minus)} ref={ref => { this.buttons['-'] = ref }}>
+						<img style={Styles.symbolImg} src={minus} alt={alt} />
 					</div>
-					<div id='button' style={StylesC.symbol} onClick={() => this.activateSymbol(multiply)} ref={ref => { this.buttons['*'] = ref }}>
-						<img style={StylesC.symbolImg} src={multiply} alt={alt} />
+					<div id='button' style={Styles.symbol} onClick={() => this.activateSymbol(multiply)} ref={ref => { this.buttons['*'] = ref }}>
+						<img style={Styles.symbolImg} src={multiply} alt={alt} />
 					</div>
-					<div id='button' style={StylesC.symbol} onClick={() => this.activateSymbol(divide)} ref={ref => { this.buttons['/'] = ref }}>
-						<img style={StylesC.symbolImg} src={divide} alt={alt} />
+					<div id='button' style={Styles.symbol} onClick={() => this.activateSymbol(divide)} ref={ref => { this.buttons['/'] = ref }}>
+						<img style={Styles.symbolImg} src={divide} alt={alt} />
 					</div>
 				</div>
-				<div id='button' style={StylesC.clear} onClick={() => { this.removeAllSymbols(); playSound(remove_symbol); }} ref={ref => { this.clear = ref }}> CLEAR </div>
+				<div id='button' style={Styles.clear} onClick={() => { this.removeAllSymbols(); playSound(remove_symbol); }} ref={ref => { this.clear = ref }}> CLEAR </div>
 			</div>
 		);
 	}

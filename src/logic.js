@@ -113,25 +113,24 @@ export function wrongAnswer(values, result) {
     return convertToImages(operators);
 }
 
-export function convertToImages(operators) {
-    for (let i = 0; i < operators.length; i++) {
-        switch (operators[i]) {
-            case '+':
-                operators[i] = plus;
-                continue;
-            case '-':
-                operators[i] = minus;
-                continue;
-            case '*':
-                operators[i] = multiply;
-                continue;
-            case '/':
-                operators[i] = divide;
-                continue;
-            default:
-                operators[i] = plus;
-        }
+export function convertToImage(operator) {
+    switch (operator) {
+        case '+':
+            return plus;
+        case '-':
+            return minus;
+        case '*':
+            return multiply;
+        case '/':
+            return divide;
+        default:
+            return plus;
     }
+}
+
+export function convertToImages(operators) {
+    for (let i = 0; i < operators.length; i++) 
+        operators[i] = convertToImage(operators[i]);
     return operators;
 }
 

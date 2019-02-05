@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { calcWidth, generateAnswer, solveEquation, terms } from './logic.js';
+import { calcWidth, generateAnswer, solveEquation, terms, convertToImage } from './logic.js';
 import { playAnimation, resetAnimation } from './animation.js';
 import { tut, tutCnt, setTutCnt, alt } from './game_config.js';
 import { plus, minus, multiply, divide, equal } from './images';
@@ -61,6 +61,11 @@ export default class Equation extends Component {
 		let result = generateAnswer(values);
 		this.setState({ values, result: result.result, answer: result.answer, equation: true, active: new Array(terms - 1).fill(false), symbol: [], mounted: true });
 		this.calcEquationWidth(values, result.result);
+	}
+
+	showAnswer() {
+		for(let i = 0; i < this.state.answer.length; i++)
+			this.btn[i].open(convertToImage(this.state.answer[i]));
 	}
 
 	getAnswer() {

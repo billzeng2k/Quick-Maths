@@ -63,7 +63,6 @@ export default class Timer extends Component {
 	}
 
 	equationSolved() {
-		var timeElapsed = new Date().getTime() - this.startTime;
 		this.score++;
 		if(this.score < sequence.length) {
 			if(sequence[this.score] === 'change') {
@@ -74,7 +73,6 @@ export default class Timer extends Component {
 		}
 		this.resetTime();
 		this.startCountdown();
-		return timeElapsed / 1000;
 	}
 
 	done() {
@@ -91,9 +89,10 @@ export default class Timer extends Component {
 	startCountdown() {
 		clearInterval(this.counter);
 		this.setState({ time: gameTime + 1 });
-		this.startTime = new Date().getTime();
 		this.counter = setInterval(() => {
 			this.setState({ time: this.state.time - 1 });
+			if(this.state.time <= 0 && gameRunning)
+				this.done();
 		}, 1000);
 	}
 
@@ -111,8 +110,6 @@ export default class Timer extends Component {
 	}
 
 	render () {
-		if(this.state.time <= 0 && gameRunning) 
-			this.done();
 		if(this.state.mounted)
 			this.countdown.style.setProperty('stroke-dashoffset', gameTime === 'inf' ? 0 : circumference * (gameTime - Math.max(this.state.time - 1, 0)) / gameTime);
 		return (
