@@ -17,13 +17,13 @@ const entrySize = calcHeight(100, - fontSize * 2 - calcWidth(35, 0)) / 6;
 const Styles = {
 	score: {
 		textAlign: 'center',
-		fontSize: fontSize + 'px'
+		fontSize: fontSize
 	},
 	bar: {
 		backgroundColor: 'black',
 		width: calcWidth(40, 0),
 		margin: 'auto',
-		height: calcHeight(0.3, 0) + 'px'
+		height: calcHeight(0.3, 0)
 	},
 	sound_button: {
 		position: 'fixed',
@@ -36,7 +36,7 @@ const Styles = {
 		margin: buttonMargin + '%',
 		width: calcWidth(100 - buttonMargin * 2, - 2 * borderSize),
 		border: borderSize + 'px solid black',
-		borderRadius: (2 * borderSize) + 'px',
+		borderRadius: (2 * borderSize),
 		fontSize: fontSizePA,
 		textAlign: 'center',
 	},
@@ -49,13 +49,13 @@ const Styles = {
 		overflowY: 'auto',
 	},
 	challenge_text: {
-		fontSize: fontSizePA / 2
+		fontSize: fontSizePA / 2,
 	},
 	foreground: {
-		pointerEvents: 'none',
 		position: 'fixed',
-		top: fontSize * 0.175 + entrySize + 'px',
-		height: entrySize * 6 + 'px',
+		pointerEvents: 'none',
+		bottom: fontSizePA * 4.25,
+		height: entrySize * 6,
 		width: '100%',
 		zIndex: 1,
 		backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0) 90%, rgba(255, 255, 255, 1) 97%)'
@@ -82,7 +82,7 @@ export default class LoseScreen extends Component {
 		window.FBInstant.shareAsync({
 			intent: 'REQUEST',
 			image: share_splash,
-			text: window.FBInstant.player.getName() + ' just got ' + this.score + ' points in Quick Maths! Can you beat him?',
+			text: window.FBInstant.player.getName() + ' just got ' + highScore + ' points in Quick Maths! Can you beat him?',
 			data: {}
 		}).catch((err) => {
 			console.log(err);

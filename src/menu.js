@@ -38,7 +38,7 @@ export default class Menu extends Component {
 	render() {
 		return (
 			<div>
-				<div className='slide_down_pop_animation' style={Styles.title} ref={ref => { this.title = ref }} > Quick Maths!! </div>
+				<div className='slide_down_pop_animation' style={Styles.title} ref={ref => { this.title = ref }} > Quick Maths! </div>
 				<div className='pulse' onClick={() => { this.playGame(); playSound(menu) }} style={Styles.text} > <div ref={ref => { this.text = ref }}> Start Game </div> </div>
 				<ButtonContainer changeScreen = { this.props.changeScreen } ref={ref => { this.buttons = ref }} button1 = { 'leaderboard' } button2 = { 'challenge' } button3 = { 'sound' } />
 			</div>
