@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { calcWidth, calcHeight, setHighScore } from './logic.js';
 import { playAnimation, resetAnimation } from './animation.js';
 import { highScore } from './logic.js';
-import { mute, sound, plus } from './images';
+import { mute, sound, fb_user, share_splash } from './images';
 import { muted, playSound, menu, toggleSound } from './sounds';
 import Entry from './entry.js';
 import Recommended from './recommended_player.js';
@@ -81,7 +81,7 @@ export default class LoseScreen extends Component {
 	share() {
 		window.FBInstant.shareAsync({
 			intent: 'REQUEST',
-			image: plus,
+			image: share_splash,
 			text: window.FBInstant.player.getName() + ' just got ' + this.score + ' points in Quick Maths! Can you beat him?',
 			data: {}
 		}).catch((err) => {
@@ -91,6 +91,20 @@ export default class LoseScreen extends Component {
 
 	reset(score) {
 		this.once = false;
+		window.FBInstant.player
+			.getStatsAsync(['high_score']).then((stats) => {
+				window.FBInstant.player
+					.setStatsAsync({
+						high_score: Math.max(score, stats['high_score']),
+					});
+				if (stats['high_score'] !== undefined)
+					setHighScore(Math.max(score, stats['high_score'], highScore));
+				else
+					setHighScore(Math.max(score, highScore));
+				if (window.FBInstant.context.getID() === null)
+					this.currentPlayer.setEntry(1, window.FBInstant.player.getName(), window.FBInstant.player.getPhoto(), highScore);
+				this.forceUpdate();
+			});
 		window.FBInstant.player.getConnectedPlayersAsync().then((players) => {
 			this.setState({ recommended: players });
 		});
@@ -101,8 +115,6 @@ export default class LoseScreen extends Component {
 			window.FBInstant.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
 				.then((leaderboard) => leaderboard.getEntriesAsync())
 				.then((entries) => this.setState({ entries }))
-		} else {
-			this.currentPlayer.setEntry(1, window.FBInstant.player.getName(), window.FBInstant.player.getPhoto(), highScore);
 		}
 		if (highScore < score) {
 			setHighScore(score);
@@ -149,9 +161,15 @@ export default class LoseScreen extends Component {
 			return;
 		let elements = [];
 		for (let i = 0; i < this.state.recommended.length; i++) {
+			if (this.state.recommended[i].getID() === window.FBInstant.context.getID())
+				continue;
 			let entry = <Recommended key={'h' + i} name={this.state.recommended[i].getName()} photo={this.state.recommended[i].getPhoto()} size={fontSizePA} id={this.state.recommended[i].getID()} changeScreen={this.props.changeScreen} />;
 			elements.push(entry);
 		}
+		for (let i = this.state.recommended.length; i < 5; i++) {
+			elements.push(<Recommended key={'h' + i} name='Challenge!' photo={fb_user} size={fontSizePA} id={-1} changeScreen={this.props.changeScreen} />);
+		}
+		elements.push(<Recommended key={'h' + -1} name='Challenge!' photo={fb_user} size={fontSizePA} id={-1} changeScreen={this.props.changeScreen} />);
 		return elements;
 	}
 
