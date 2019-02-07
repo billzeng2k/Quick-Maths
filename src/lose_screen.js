@@ -75,7 +75,6 @@ const Styles = {
 export default class LoseScreen extends Component {
 	constructor(props) {
 		super(props);
-		this.newBest = false;
 		this.state = { score: 0, entries: -1, recommended: -1 };
 
 	}
@@ -100,7 +99,6 @@ export default class LoseScreen extends Component {
 	}
 
 	reset(score) {
-		this.once = false;
 		window.FBInstant.player
 			.getStatsAsync(['high_score']).then((stats) => {
 				window.FBInstant.player
@@ -112,29 +110,29 @@ export default class LoseScreen extends Component {
 				else
 					setHighScore(Math.max(score, highScore));
 				if (window.FBInstant.context.getID() === null)
-					this.currentPlayer.setEntry(1, window.FBInstant.player.getName(), window.FBInstant.player.getPhoto(), highScore);
+					this.currentPlayer.setEntry(1, window.FBInstant.player.getName(), window.FBInstant.player.getPhoto(), Math.max(score, highScore));
 				this.forceUpdate();
 			});
 		window.FBInstant.player.getConnectedPlayersAsync().then((players) => {
 			this.setState({ recommended: players });
 		});
 		if (window.FBInstant.context.getID() !== null) {
-			window.FBInstant.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
-				.then((leaderboard) => leaderboard.getPlayerEntryAsync())
-				.then((entry) => this.currentPlayer.setEntry(entry.getRank(), entry.getPlayer().getName(), entry.getPlayer().getPhoto(), Math.max(score, highScore, entry.getScore())));
-			window.FBInstant.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
-				.then((leaderboard) => leaderboard.getEntriesAsync())
-				.then((entries) => this.setState({ entries }))
-		}
-		if (highScore < score) {
-			setHighScore(score);
-			this.newBest = true;
-			if (window.FBInstant.context.getID() !== null) {
-				window.FBInstant
-					.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
-					.then(leaderboard => { return leaderboard.setScoreAsync(score); })
-					.then(console.log('Score Updated'))
-					.catch(error => console.error(error));
+			window.FBInstant
+				.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
+				.then(leaderboard => { return leaderboard.setScoreAsync(score); })
+				.then(() => {
+					window.FBInstant.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
+						.then((leaderboard) => leaderboard.getPlayerEntryAsync())
+						.then((entry) => {
+							this.currentPlayer.setEntry(entry.getRank(), entry.getPlayer().getName(), entry.getPlayer().getPhoto(), Math.max(score, entry.getScore()))
+							this.forceUpdate();
+						});
+					window.FBInstant.getLeaderboardAsync('BaseGame.' + window.FBInstant.context.getID())
+						.then((leaderboard) => leaderboard.getEntriesAsync())
+						.then((entries) => { this.setState({ entries }); this.forceUpdate() })
+				})
+				.catch(error => console.error(error));
+			if (score > highScore) {
 				window.FBInstant.updateAsync({
 					action: 'LEADERBOARD',
 					name: 'BaseGame.' + window.FBInstant.context.getID()
@@ -143,8 +141,7 @@ export default class LoseScreen extends Component {
 					.catch(error => console.error(error));
 			}
 		}
-		else
-			this.newBest = false;
+		setHighScore(Math.max(score, highScore));
 		this.setState({ score });
 		resetAnimation(this.play_again, 'slide_down_animation');
 		resetAnimation(this.scoreContainer, 'slide_up_out_animation');

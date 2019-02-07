@@ -50,9 +50,14 @@ html, body {
   background-color: rgba(241, 196, 15, 1.0) !important;
 }
 
+.pop_pulse {
+  -webkit-animation: pulse_big 1s infinite 0.5s alternate ease-in-out, pop_up 0.5s 1 ease-out;
+  animation: pulse_big 1s infinite 0.5s alternate ease-in-out, pop_up 0.5s 1 ease-out;
+}
+
 .tease_animation {
-  -webkit-animation: tease 3s infinite ease-in-out, slide_left 0.5s 1 ease-out;
-  animation: tease 3s infinite ease-in-out, slide_left 0.5s 1 ease-out;
+  -webkit-animation: tease 3s infinite ease-in-out, pop_up 0.5s 1 ease-out;
+  animation: tease 3s infinite ease-in-out, pop_up 0.5s 1 ease-out;
 }
 
 .slide_up_pop_animation {
@@ -91,8 +96,8 @@ html, body {
 }
 
 .fade_in_animation {
-  -webkit-animation: fade-in 0.5s 1 ease-out;
-  animation: fade-in 0.5s 1 ease-out;
+  -webkit-animation: fade-in 1s 1 ease-out;
+  animation: fade-in 1s 1 ease-out;
 }
 
 .fade_out_animation {
@@ -211,7 +216,7 @@ html, body {
 
 @keyframes pulse_big {
   from { transform: scale(1); }
-  to   { transform: scale(1.03); }
+  to   { transform: scale(1.06); }
 }
 
 @keyframes fade-in {

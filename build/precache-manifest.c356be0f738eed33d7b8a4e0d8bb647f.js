@@ -1,15 +1,15 @@
 self.__precacheManifest = [
   {
-    "revision": "a404fa3232d26e91f8ea3a0937c3cb77",
-    "url": "./static/media/play.a404fa32.png"
+    "revision": "de3c0a43d7118a2acede7e5ad3660ad1",
+    "url": "./static/media/trophy.de3c0a43.png"
   },
   {
-    "revision": "4be7117e33363ab69991",
-    "url": "./static/css/main.21257cc4.chunk.css"
+    "revision": "011be9952cd8e425c5e3",
+    "url": "./static/css/main.b624e218.chunk.css"
   },
   {
-    "revision": "25fb8165ce20b73a9333",
-    "url": "./static/js/1.25fb8165.chunk.js"
+    "revision": "fb8deea5adf90c06c48f",
+    "url": "./static/js/1.fb8deea5.chunk.js"
   },
   {
     "revision": "4a686d48d5a089750c49",
@@ -48,16 +48,8 @@ self.__precacheManifest = [
     "url": "./static/media/crownS.c0c6227f.png"
   },
   {
-    "revision": "c5c15d7035f04a757a24d58a6fa0d03d",
-    "url": "./static/media/cry.c5c15d70.png"
-  },
-  {
     "revision": "73e0be646e3d07738411c390854d0daa",
     "url": "./static/media/divide.73e0be64.png"
-  },
-  {
-    "revision": "e41a757f77525bbacdfd50b935601d3d",
-    "url": "./static/media/dizzy.e41a757f.png"
   },
   {
     "revision": "1743db520c1ef43dcfb88df75a7d5f3d",
@@ -88,24 +80,16 @@ self.__precacheManifest = [
     "url": "./static/media/mute.b4d0f272.png"
   },
   {
-    "revision": "4be7117e33363ab69991",
-    "url": "./static/js/main.4be7117e.chunk.js"
+    "revision": "a404fa3232d26e91f8ea3a0937c3cb77",
+    "url": "./static/media/play.a404fa32.png"
   },
   {
     "revision": "cb2fcb8a6c96adeec12f3e70d42f06d8",
     "url": "./static/media/plus.cb2fcb8a.png"
   },
   {
-    "revision": "28b2afbcccc64776905336ff3cc81ed5",
-    "url": "./static/media/poo.28b2afbc.png"
-  },
-  {
     "revision": "17d4f435e367051008051ff2f9729331",
     "url": "./static/media/restart.17d4f435.png"
-  },
-  {
-    "revision": "7d99f73b371565b82712bfa088d8b181",
-    "url": "./static/media/share.7d99f73b.png"
   },
   {
     "revision": "5ff3a3216bbe8eb4ab0baa6f1832bc6c",
@@ -120,12 +104,64 @@ self.__precacheManifest = [
     "url": "./static/media/sound.7bf447f7.png"
   },
   {
-    "revision": "518d52474c0e9f177e3f1921b2c0df5c",
-    "url": "./static/media/surprised.518d5247.png"
+    "revision": "011be9952cd8e425c5e3",
+    "url": "./static/js/main.011be995.chunk.js"
   },
   {
-    "revision": "de3c0a43d7118a2acede7e5ad3660ad1",
-    "url": "./static/media/trophy.de3c0a43.png"
+    "revision": "b171c4fa42df467ce8f9bc352ef35f11",
+    "url": "./static/media/daruma_happy.b171c4fa.png"
+  },
+  {
+    "revision": "5b089685b9615df1a93b363df753b0ec",
+    "url": "./static/media/daruma_sad.5b089685.png"
+  },
+  {
+    "revision": "bf58676539adb24aec4ee0826466da06",
+    "url": "./static/media/dog_happy.bf586765.png"
+  },
+  {
+    "revision": "7e9846d794e130560c9b17617d65cdc5",
+    "url": "./static/media/dog_sad.7e9846d7.png"
+  },
+  {
+    "revision": "f199ef56e02c3d7ffc7e8e5da5deaa3f",
+    "url": "./static/media/kappa_happy.f199ef56.png"
+  },
+  {
+    "revision": "41df9279adcdc6be4c4d2f7951430e74",
+    "url": "./static/media/kappa_sad.41df9279.png"
+  },
+  {
+    "revision": "d8c4ce8113a203f417883606ee622afb",
+    "url": "./static/media/oni_happy.d8c4ce81.png"
+  },
+  {
+    "revision": "0fa9bbb554119c55731a0e0d475276d4",
+    "url": "./static/media/oni_sad.0fa9bbb5.png"
+  },
+  {
+    "revision": "b6bf1f5b5178dac05054cb3f33c49dd1",
+    "url": "./static/media/monkey_happy.b6bf1f5b.png"
+  },
+  {
+    "revision": "4754b926b1288f6ee28819d5f0750d68",
+    "url": "./static/media/monkey_sad.4754b926.png"
+  },
+  {
+    "revision": "50f2fe64b18ad0e15c7f5e0a3d75ae75",
+    "url": "./static/media/octopus_happy.50f2fe64.png"
+  },
+  {
+    "revision": "ba3a71371ea6c3a0185f430feeec1cb8",
+    "url": "./static/media/octopus_sad.ba3a7137.png"
+  },
+  {
+    "revision": "9d19e562eab3be9682c666ed50c62172",
+    "url": "./static/media/takoyaki_happy.9d19e562.png"
+  },
+  {
+    "revision": "5ca8ad217e8e256f51eeaa3e05360b6d",
+    "url": "./static/media/takoyaki_sad.5ca8ad21.png"
   },
   {
     "revision": "4ba501c05f89e27d3e886ade3c24f63b",
@@ -172,7 +208,7 @@ self.__precacheManifest = [
     "url": "./static/media/Dense.6c9dd228.otf"
   },
   {
-    "revision": "74c9e89bd4427c5d083598b5480c3d0d",
+    "revision": "577a11e931cc1fe511bd81e0c56c1ccc",
     "url": "./index.html"
   }
 ];

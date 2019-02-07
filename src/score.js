@@ -30,11 +30,11 @@ export default class Score extends Component {
 		this.state = { mounted: false, score: 0};
 		this.mounted = false;
 		this.emoji = grin;
+		this.state = { score: 0 };
 	}
 
 	componentDidMount() {
 		this.setState({ mounted: true });
-		this.resetScore();
 	}
 
 	resetScore () {
@@ -49,6 +49,10 @@ export default class Score extends Component {
 
 	getScore() {
 		return this.state.score;
+	}
+
+	setScore(score) {
+		this.setState({ score });
 	}
 
 	transitionOut() {

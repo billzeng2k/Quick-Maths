@@ -8,8 +8,9 @@ import Equation from './equation.js';
 import Controls from './controls.js';
 import Timer from './timer.js';
 import Score from './score.js';
+import { preloadedRewardedVideo } from './ad.js';
 
-const fontSize = calcWidth(2575/98, 0);
+const fontSize = calcWidth(2575 / 98, 0);
 const exclaimations = ['QUOI?', 'AIYA!', 'JOBS DONE', 'NEVER LUCKY', 'NEIN!']
 const pos3 = timerSize * 2 + (document.body.clientHeight - timerSize * 2 - calcWidth(45, 0)) / 2 + fontSize;
 const pos2 = timerSize * 2 + (document.body.clientHeight - timerSize * 2 - calcWidth(45, 0)) / 2;
@@ -21,51 +22,52 @@ const opacity2 = 0.05;
 const opacity3 = 0;
 
 export default class GameScreen extends Component {
-	constructor(props) {
-		super(props);
-		this.currentEquation = 1;
+    constructor(props) {
+        super(props);
+        this.currentEquation = 1;
+        this.saved = false;
         setHomeButton(true);
-		this.eq = [];
-	}
+        this.eq = [];
+    }
 
-	symbolPress(symbol) {
-        if(tut) {
-            setTutCnt(tutCnt+1);
+    symbolPress(symbol) {
+        if (tut) {
+            setTutCnt(tutCnt + 1);
             this.controls.setTutorial();
         }
-		this.eq[this.currentEquation].activate(symbol);
-	}
+        this.eq[this.currentEquation].activate(symbol);
+    }
 
-	removeAllSymbols() {
-		this.eq[this.currentEquation].removeAllSymbols();
-	}
+    removeAllSymbols() {
+        this.eq[this.currentEquation].removeAllSymbols();
+    }
 
-	correctAnswer() {
+    correctAnswer() {
         playSound(win);
         this.timer.equationSolved();
-        if(tut) {
+        if (tut) {
             setTut(false);
             this.controls.resetAnimation();
         }
         this.score.scorePoint();
         this.shiftEquations(true);
-        
-	}
+
+    }
 
     shiftEquations(reset) {
         this.eq[this.currentEquation].slideTo(pos0, opacity0, false);
         this.eq[(this.currentEquation + 1) % 4].slideTo(pos1, opacity1, false);
         this.eq[(this.currentEquation + 2) % 4].slideTo(pos2, opacity2, false);
-        if(reset)
+        if (reset)
             this.eq[(this.currentEquation + 3) % 4].slideTo(pos3, opacity3, true);
-        else 
+        else
             this.eq[(this.currentEquation + 3) % 4].slideTo(pos3, opacity3, true);
         this.currentEquation++;
         this.currentEquation %= 4;
     }
 
     resetGame() {
-        if(!gameRunning)
+        if (!gameRunning)
             return;
         this.timer.initialize();
         this.startGame();
@@ -79,9 +81,10 @@ export default class GameScreen extends Component {
         playAnimation(this.equationContainer, 'fade_out_animation');
     }
 
-    joinGame() {
+    joinGame(score) {
         setGameRunning(false);
-        this.timer.initialize();
+        if (score === undefined)
+            this.timer.initialize();
         this.timer.resetAnimation();
         this.controls.resetAnimation();
         this.score.resetAnimation();
@@ -89,23 +92,28 @@ export default class GameScreen extends Component {
         resetAnimation(this.equationContainer, 'fade_out_animation');
     }
 
-    startGame() {
+    startGame(score) {
         clearTimeout(this.timeout1);
         clearTimeout(this.timeout2);
         clearTimeout(this.timeout3);
         setGameRunning(false);
-        setTerms(3);
-        setMaxR(99);
-        setTut(true); 
-        this.controls.resetAnimation();  
-        this.score.resetScore();
+        if (score === undefined) {
+            setTerms(3);
+            setMaxR(99);
+            setTut(true);
+            this.score.resetScore();
+            this.saved = false;
+        } else {
+            this.saved = true;
+        }
+        this.controls.resetAnimation();
         this.timer.resetTime();
         this.eq[this.currentEquation].setText('READY');
         this.eq[(this.currentEquation + 1) % 4].setText('SET');
         this.eq[(this.currentEquation + 2) % 4].setText('QUICK MATHS!');
-        this.timeout1 = setTimeout(() => { this.shiftEquations(false); playSound(ready); } , 750);
+        this.timeout1 = setTimeout(() => { this.shiftEquations(false); playSound(ready); }, 750);
         this.timeout2 = setTimeout(() => { this.shiftEquations(true); playSound(set); }, 1500);
-        this.timeout3 = setTimeout(() => { setGameRunning(true); this.shiftEquations(true); playSound(go); setTut(true); setTutCnt(0); setTutAns(this.eq[this.currentEquation].getAnswer()); this.controls.setTutorial(); this.timer.startCountdown(); }, 2250);
+        this.timeout3 = setTimeout(() => { setGameRunning(true); this.shiftEquations(true); playSound(go); this.timer.startCountdown(); if(score === undefined) { setTutCnt(0); setTutAns(this.eq[this.currentEquation].getAnswer()); this.controls.setTutorial(); }}, 2250);
     }
 
     gameFinished(score) {
@@ -115,23 +123,26 @@ export default class GameScreen extends Component {
         let i = Math.floor(Math.random() * exclaimations.length);
         this.eq[this.currentEquation].showAnswer();
         this.eq[(this.currentEquation + 1) % 4].setText(exclaimations[(i + 1 + Math.floor(Math.random() * (exclaimations.length - 1))) % exclaimations.length]);
-        setTimeout(() => this.props.changeScreen('Score', score), 1500);
+        if(this.saved || preloadedRewardedVideo === null)
+            setTimeout(() => this.props.changeScreen('Score', score), 1500);
+        else
+            setTimeout(() => this.props.changeScreen('Ad', score), 1500);
     }
 
-	render () {
-		return (
-			<div>
-                <GameMenuControls changeScreen = { this.props.changeScreen } game = { this } ref = { ref => { this.menuControls = ref }}/>
-                <Score ref = { ref => { this.score = ref; }} />
-				<Timer game = { this } ref = { ref => { this.timer = ref; }} />
-                <div ref = { ref => { this.equationContainer = ref }} className = 'fade_in_animation'>
-    				<Equation game = { this } ref = { ref => { this.eq[3] = ref; }} offset = { pos3 } opacity = { opacity3 } />
-    				<Equation game = { this } ref = { ref => { this.eq[2] = ref; }} offset = { pos2 } opacity = { opacity2 } />
-    				<Equation game = { this } ref = { ref => { this.eq[1] = ref; }} offset = { pos1 } opacity = { opacity1 } />
-                    <Equation game = { this } ref = { ref => { this.eq[0] = ref; }} offset = { pos0 } opacity = { opacity0 } />
+    render() {
+        return (
+            <div>
+                <GameMenuControls changeScreen={this.props.changeScreen} game={this} ref={ref => { this.menuControls = ref }} />
+                <Score ref={ref => { this.score = ref; }} />
+                <Timer game={this} ref={ref => { this.timer = ref; }} />
+                <div ref={ref => { this.equationContainer = ref }} className='fade_in_animation'>
+                    <Equation game={this} ref={ref => { this.eq[3] = ref; }} offset={pos3} opacity={opacity3} />
+                    <Equation game={this} ref={ref => { this.eq[2] = ref; }} offset={pos2} opacity={opacity2} />
+                    <Equation game={this} ref={ref => { this.eq[1] = ref; }} offset={pos1} opacity={opacity1} />
+                    <Equation game={this} ref={ref => { this.eq[0] = ref; }} offset={pos0} opacity={opacity0} />
                 </div>
-				<Controls ref = { ref => { this.controls = ref }} callbackRef = { this } />
-			</div>
-		);
-	}
+                <Controls ref={ref => { this.controls = ref }} callbackRef={this} />
+            </div>
+        );
+    }
 }

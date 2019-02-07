@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { calcWidth } from './logic.js';
-import { tut, alt } from './game_config';
+import { tut, alt, gameRunning } from './game_config';
 import { playSound, remove_symbol } from './sounds';
 import { plus } from './images';
 
@@ -32,6 +32,7 @@ export default class Button extends Component {
 					top: this.state.active ? -fontSize / 7 + 'px' : -fontSize / 3.4 + 'px',
 					right: buttonSize * 0.025 + 'px',
 					transition: 'all 0.2s linear',
+					pointerEvents: gameRunning ? 'auto' : 'none',
 				}}>
 				<div style = {{
 					position: 'relative',
