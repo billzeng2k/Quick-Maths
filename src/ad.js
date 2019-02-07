@@ -7,8 +7,18 @@ export function preload() {
         return preloadedRewardedVideo.loadAsync();
     }).then(function () {
         console.log('Rewarded video preloaded')
+        window.FBInstant.logEvent(
+            'rewarded_video_preload',
+            1,
+            {}
+        )
     }).catch(function (err) {
         console.error('Rewarded video failed to preload: ' + err.message);
+        window.FBInstant.logEvent(
+            'rewarded_video_preload_fail',
+            1,
+            { err_message: err.message }
+        )
     });
 }
 
