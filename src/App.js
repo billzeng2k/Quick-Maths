@@ -22,9 +22,9 @@ class App extends Component {
 				window.FBInstant.startGameAsync()
 					.then(() => {
 						setTimeout(() => this.setState({ screenName: 'Home' }), 200);
+						preload();
 					});
 			});
-		preload();
 	}
 
 	changeScreen(screenName, score) {
