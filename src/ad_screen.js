@@ -12,7 +12,7 @@ const Styles = {
     option: {
         display: 'inline-block',
         width: calcWidth(35, 0),
-        margin: '0 30px'
+        margin: '0 ' + calcWidth(3, 0) + 'px'
     },
     image: {
         width: calcWidth(35, 0),
@@ -57,7 +57,7 @@ export default class AdScreen extends Component {
         resetAnimation(this.bar, 'fade_out_animation');
         setTimeout(() => this.setState({ tick: true, score }), 100);
         clearTimeout(this.timeout);
-        this.timeout = setTimeout(() => this.nah_dont(), 10300);
+        this.timeout = setTimeout(() => this.nah_dont(), 15300);
     }
 
     yeah_do_it() {
@@ -75,14 +75,14 @@ export default class AdScreen extends Component {
             <div style={{ textAlign: 'center' }}>
                 <div className='fade_in_animation' style={Styles.continue} ref={ref => { this.continue = ref }}> Continue? </div>
                 <div className='fade_in_animation' style={{
-                    transition: 'width 10s linear',
-                    backgroundColor: 'black',
+                    transition: 'width 15s linear, background-color 15s linear',
+                    backgroundColor: this.state.tick ? 'red' : 'black',
                     borderRadius: 100,
                     width: this.state.tick ? 0 : calcWidth(90, 0),
-                    height: 12,
+                    height: calcWidth(1.5, 0),
                     margin: 'auto'
                 }} ref={ref => { this.bar = ref }}> </div>
-                <div style={{ marginTop: 150 }}>
+                <div style={{ marginTop: calcWidth(5, 0) }}>
                     <div id='button' className='pop_pulse' style={Styles.option} ref={ref => { this.yeah = ref }} onClick={() => this.yeah_do_it()}>
                         <img src={this.ye} style={Styles.image} alt = { alt }/>
                         <div style={Styles.option_text}> Yeah! </div>

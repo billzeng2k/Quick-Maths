@@ -1,5 +1,6 @@
 export let preloadedRewardedVideo = null;
 export function preload() {
+    preloadedRewardedVideo = null;
     window.FBInstant.getRewardedVideoAsync(
         '2130997363884439_2200601390257369', // Your Ad Placement Id
     ).then(function (rewarded) {
@@ -27,6 +28,7 @@ export function playAd(success, failure) {
         .then(function () {
             // Perform post-ad success operation
             success();
+            preload();
         })
         .catch(function (e) {
             failure();
